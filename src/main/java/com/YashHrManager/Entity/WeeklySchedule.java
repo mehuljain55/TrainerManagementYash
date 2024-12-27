@@ -18,6 +18,12 @@ public class WeeklySchedule {
     @OneToMany(mappedBy = "weeklySchedule", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DailySchedule> schedules;
 
+   @ManyToMany
+    @JoinTable(name = "training_schedule", // Custom join table name
+            joinColumns = @JoinColumn(name = "training_id"),
+            inverseJoinColumns = @JoinColumn(name = "week_id"))
+    private List<Training> trainingList;
+
     public WeeklySchedule(int weekId, Date weekStartDate, Date weekEndDate, List<DailySchedule> schedules) {
         this.weekId = weekId;
         this.weekStartDate = weekStartDate;

@@ -10,8 +10,8 @@ public class DailySchedule {
 
     @Id
     private int sno;
-    private String trainerId;
-    private String trainerName;
+
+    private Training training;
     @Temporal(TemporalType.DATE)
     private Date date;
     private String description;
@@ -23,8 +23,6 @@ public class DailySchedule {
 
     public DailySchedule(int sno, String trainerId, String trainerName, Date date, String description, WeeklySchedule weeklySchedule) {
         this.sno = sno;
-        this.trainerId = trainerId;
-        this.trainerName = trainerName;
         this.date = date;
         this.description = description;
         this.weeklySchedule = weeklySchedule;
@@ -41,21 +39,6 @@ public class DailySchedule {
         this.sno = sno;
     }
 
-    public String getTrainerId() {
-        return trainerId;
-    }
-
-    public void setTrainerId(String trainerId) {
-        this.trainerId = trainerId;
-    }
-
-    public String getTrainerName() {
-        return trainerName;
-    }
-
-    public void setTrainerName(String trainerName) {
-        this.trainerName = trainerName;
-    }
 
     public Date getDate() {
         return date;
