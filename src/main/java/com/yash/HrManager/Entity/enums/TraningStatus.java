@@ -1,4 +1,4 @@
-package com.YashHrManager.Entity.Enums;
+package com.yash.HrManager.Entity.enums;
 
 public enum TraningStatus {
     PLANNED,

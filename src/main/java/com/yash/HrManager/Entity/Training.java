@@ -1,6 +1,6 @@
-package com.YashHrManager.Entity;
+package com.yash.HrManager.Entity;
 
-import com.YashHrManager.Entity.Enums.TraningStatus;
+import com.yash.HrManager.Entity.enums.TraningStatus;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -9,9 +9,14 @@ import java.util.List;
 @Entity
 @Table(name = "training")
 public class Training {
+
+    @Id
     private int trainingId;
+    private String trainerId;
+    private String emailId;
     private String trainerName;
     private int noOfParticipant;
+    private String description;
     @Temporal(TemporalType.DATE)
     private Date startDate;
     @Temporal(TemporalType.DATE)
@@ -80,5 +85,37 @@ public class Training {
 
     public void setStatus(TraningStatus status) {
         this.status = status;
+    }
+
+    public String getTrainerId() {
+        return trainerId;
+    }
+
+    public void setTrainerId(String trainerId) {
+        this.trainerId = trainerId;
+    }
+
+    public String getEmailId() {
+        return emailId;
+    }
+
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
+    }
+
+    public List<WeeklySchedule> getWeeklySchedules() {
+        return weeklySchedules;
+    }
+
+    public void setWeeklySchedules(List<WeeklySchedule> weeklySchedules) {
+        this.weeklySchedules = weeklySchedules;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

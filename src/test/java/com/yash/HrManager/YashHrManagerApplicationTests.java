@@ -1,4 +1,4 @@
-package com.YashHrManager;
+package com.yash.HrManager;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

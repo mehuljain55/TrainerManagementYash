@@ -1,4 +1,4 @@
-package com.YashHrManager.Entity;
+package com.yash.HrManager.Entity;
 
 import jakarta.persistence.*;
 

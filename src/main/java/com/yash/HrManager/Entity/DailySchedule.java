@@ -1,4 +1,4 @@
-package com.YashHrManager.Entity;
+package com.yash.HrManager.Entity;
 
 import jakarta.persistence.*;
 
@@ -10,7 +10,6 @@ public class DailySchedule {
 
     @Id
     private int sno;
-
     private Training training;
     @Temporal(TemporalType.DATE)
     private Date date;
