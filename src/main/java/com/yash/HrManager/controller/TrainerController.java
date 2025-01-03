@@ -2,6 +2,7 @@ package com.yash.HrManager.controller;
 
 import com.yash.HrManager.Entity.Trainer;
 import com.yash.HrManager.Entity.enums.UserRoles;
+import com.yash.HrManager.Entity.models.ApiRequestModelTraining;
 import com.yash.HrManager.Entity.models.ApiResponseModel;
 import com.yash.HrManager.service.TrainerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,8 @@ public class TrainerController {
         return  trainerService.addTrainer(trainer);
     }
 
+    public ApiResponseModel createNewTraining(@RequestBody ApiRequestModelTraining training){
+
+    }
 
 }

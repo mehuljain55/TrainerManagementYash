@@ -10,27 +10,13 @@ import jakarta.persistence.Table;
 public class Trainer {
 
     @Id
-    private String trainerId;
     private String emailId;
     private String trainerName;
     private UserRoles role;
     private String password;
 
-    public Trainer(String trainerId, String trainerName, String password) {
-        this.trainerId = trainerId;
-        this.trainerName = trainerName;
-        this.password = password;
-    }
 
     public Trainer() {
-    }
-
-    public String getTrainerId() {
-        return trainerId;
-    }
-
-    public void setTrainerId(String trainerId) {
-        this.trainerId = trainerId;
     }
 
     public String getTrainerName() {
