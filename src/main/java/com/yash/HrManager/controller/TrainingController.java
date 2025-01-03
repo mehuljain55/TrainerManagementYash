@@ -1,6 +1,7 @@
 package com.yash.HrManager.controller;
 
 import com.yash.HrManager.Entity.enums.StatusResponse;
+import com.yash.HrManager.Entity.enums.UserRoles;
 import com.yash.HrManager.Entity.models.ApiRequestModelTraining;
 import com.yash.HrManager.Entity.models.ApiResponseModel;
 import com.yash.HrManager.service.TrainingService;
@@ -21,6 +22,7 @@ public class TrainingController {
     @Autowired
     private UserAuthorizationService userAuthorizationService;
 
+    private final UserRoles accessRole=UserRoles.trainer;
 
     public ApiResponseModel createNewTraining(@RequestBody ApiRequestModelTraining training){
         boolean validateAccess=userAuthorizationService.validateUserToken(training.getTrainer().getEmailId(),training.getToken());

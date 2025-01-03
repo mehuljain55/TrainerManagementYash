@@ -19,7 +19,8 @@ public class TrainerController {
     @Autowired
     private UserAuthorizationService userAuthorizationService;
 
-    private final UserRoles userRoles=UserRoles.trainer;
+    private final UserRoles accessRole=UserRoles.trainer;
+
 
     @PostMapping("/register")
     public ApiResponseModel addTrainer(@RequestBody Trainer trainer)
@@ -27,6 +28,10 @@ public class TrainerController {
         return  trainerService.addTrainer(trainer);
     }
 
-
+    @PostMapping("/login")
+    private ApiResponseModel login(@RequestParam("emailId") String emailId,@RequestParam("password") String password)
+    {
+        return userAuthorizationService.validateUserLogin(emailId,password);
+    }
 
 }

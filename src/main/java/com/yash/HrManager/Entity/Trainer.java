@@ -1,6 +1,7 @@
 package com.yash.HrManager.Entity;
 
 import com.yash.HrManager.Entity.enums.UserRoles;
+import com.yash.HrManager.Entity.enums.UserStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -14,7 +15,7 @@ public class Trainer {
     private String trainerName;
     private UserRoles role;
     private String password;
-
+    private UserStatus status;
 
     public Trainer() {
     }
@@ -49,5 +50,13 @@ public class Trainer {
 
     public void setRole(UserRoles role) {
         this.role = role;
+    }
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
     }
 }

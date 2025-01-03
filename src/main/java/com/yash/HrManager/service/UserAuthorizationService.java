@@ -1,7 +1,11 @@
 package com.yash.HrManager.service;
 
 import com.yash.HrManager.Entity.Trainer;
+import com.yash.HrManager.Entity.enums.StatusResponse;
 import com.yash.HrManager.Entity.enums.UserRoles;
+import com.yash.HrManager.Entity.enums.UserStatus;
+import com.yash.HrManager.Entity.models.ApiResponseModel;
+import com.yash.HrManager.Entity.models.UserLoginModel;
 import com.yash.HrManager.repository.TrainerRepo;
 import com.yash.HrManager.repository.TraniningRepo;
 import org.mindrot.jbcrypt.BCrypt;
@@ -18,6 +22,29 @@ public class UserAuthorizationService {
 
     @Autowired
     private JwtUtils jwtUtils;
+
+    public ApiResponseModel<UserLoginModel> validateUserLogin(String emailId, String password)
+    {
+        Optional<Trainer> opt=trainerRepo.findById(emailId);
+        if(opt.isPresent())
+        {
+            Trainer trainer=opt.get();
+            if(!(trainer.getStatus().equals(UserStatus.active)))
+            {
+                return  new ApiResponseModel<>(StatusResponse.unauthorized,null,"User approval pending");
+            }
+            else if((verifyPassword(password,trainer.getPassword())))
+            {
+                String token=jwtUtils.generateToken(trainer);
+                UserLoginModel userLoginModel=new UserLoginModel(trainer,token);
+                return  new ApiResponseModel<>(StatusResponse.success,userLoginModel,"User Validated");
+            }else {
+                return  new ApiResponseModel<>(StatusResponse.unauthorized,null,"Invalid password");
+            }
+        }else {
+            return  new ApiResponseModel<>(StatusResponse.not_found,null,"User Not exists");
+        }
+    }
 
     public boolean validateUserToken(String emailId,String token)
     {
