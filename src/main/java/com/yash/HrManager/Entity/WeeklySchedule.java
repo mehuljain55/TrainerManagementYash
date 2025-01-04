@@ -9,26 +9,32 @@ import java.util.List;
 @Table(name="weekly_schedule")
 public class WeeklySchedule {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int weekId;
+
     @Temporal(TemporalType.DATE)
     private Date weekStartDate;
+
     @Temporal(TemporalType.DATE)
     private Date weekEndDate;
 
     @OneToMany(mappedBy = "weeklySchedule", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DailySchedule> schedules;
 
-   @ManyToMany
-    @JoinTable(name = "training_schedule", // Custom join table name
-            joinColumns = @JoinColumn(name = "training_id"),
-            inverseJoinColumns = @JoinColumn(name = "week_id"))
+    @ManyToMany
+    @JoinTable(
+            name = "training_schedule", // Custom join table name
+            joinColumns = @JoinColumn(name = "week_id"), // Corrected `joinColumns`
+            inverseJoinColumns = @JoinColumn(name = "training_id") // Corrected `inverseJoinColumns`
+    )
     private List<Training> trainingList;
 
-    public WeeklySchedule(int weekId, Date weekStartDate, Date weekEndDate, List<DailySchedule> schedules) {
+    public WeeklySchedule(int weekId, Date weekStartDate, Date weekEndDate, List<DailySchedule> schedules, List<Training> trainingList) {
         this.weekId = weekId;
         this.weekStartDate = weekStartDate;
         this.weekEndDate = weekEndDate;
         this.schedules = schedules;
+        this.trainingList = trainingList;
     }
 
     public WeeklySchedule() {
@@ -64,5 +70,13 @@ public class WeeklySchedule {
 
     public void setSchedules(List<DailySchedule> schedules) {
         this.schedules = schedules;
+    }
+
+    public List<Training> getTrainingList() {
+        return trainingList;
+    }
+
+    public void setTrainingList(List<Training> trainingList) {
+        this.trainingList = trainingList;
     }
 }

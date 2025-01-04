@@ -33,6 +33,4 @@ public class TrainerController {
         return userAuthorizationService.validateUserLogin(emailId,password);
     }
 
-
-
 }
