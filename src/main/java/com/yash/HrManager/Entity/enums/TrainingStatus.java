@@ -1,6 +1,6 @@
 package com.yash.HrManager.Entity.enums;
 
-public enum TraningStatus {
+public enum TrainingStatus {
     PLANNED,
     INPROGRESS,
     COMPLETED,

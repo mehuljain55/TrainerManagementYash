@@ -11,6 +11,7 @@ public class DailySchedule {
     @Id
     private int sno;
     private Training training;
+    private String emailId;
     @Temporal(TemporalType.DATE)
     private Date date;
     private String description;
@@ -61,5 +62,21 @@ public class DailySchedule {
 
     public void setWeeklySchedule(WeeklySchedule weeklySchedule) {
         this.weeklySchedule = weeklySchedule;
+    }
+
+    public Training getTraining() {
+        return training;
+    }
+
+    public void setTraining(Training training) {
+        this.training = training;
+    }
+
+    public String getEmailId() {
+        return emailId;
+    }
+
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
     }
 }

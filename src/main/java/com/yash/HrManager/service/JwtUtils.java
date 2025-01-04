@@ -1,7 +1,8 @@
 package com.yash.HrManager.service;
 
+import com.yash.HrManager.Entity.User;
 import com.yash.HrManager.Entity.enums.UserRoles;
-import com.yash.HrManager.Entity.Trainer;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -15,9 +16,9 @@ public class JwtUtils {
     private  final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     private  final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour
 
-    public  String generateToken(Trainer trainer) {
+    public  String generateToken(User user) {
         return Jwts.builder()
-                .setSubject(trainer.getEmailId())
+                .setSubject(user.getEmailId())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SECRET_KEY)
@@ -32,22 +33,21 @@ public class JwtUtils {
                 .getBody();
     }
 
-
-    public  boolean validateTokenForUser(Trainer trainer, String token) {
+    public  boolean validateTokenForUser(User user, String token) {
         try {
             Claims claims = validateToken(token);
             String emailId = claims.getSubject();
-            return emailId.equals(trainer.getEmailId());
+            return emailId.equals(user.getEmailId());
         } catch (JwtException e) {
             return false;
         }
     }
 
-    public  boolean validateTokenForUserRole(Trainer trainer,String token, UserRoles userRole) {
+    public  boolean validateTokenForUserRole(User user,String token, UserRoles userRole) {
         try {
             Claims claims = validateToken(token);
             String emailId = claims.getSubject();
-            return (emailId.equals(trainer.getEmailId()) && (userRole.equals(trainer.getRole())));
+            return (emailId.equals(user.getEmailId()) && (userRole.equals(user.getRole())));
         } catch (JwtException e) {
             return false;
         }

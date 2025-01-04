@@ -1,9 +1,11 @@
 package com.yash.HrManager.service;
 
+import com.yash.HrManager.Entity.User;
 import com.yash.HrManager.Entity.enums.StatusResponse;
+import com.yash.HrManager.Entity.enums.UserRoles;
 import com.yash.HrManager.Entity.models.ApiResponseModel;
-import com.yash.HrManager.Entity.Trainer;
-import com.yash.HrManager.repository.TrainerRepo;
+
+import com.yash.HrManager.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +13,13 @@ import org.springframework.stereotype.Service;
 public class TrainerService {
 
     @Autowired
-    private TrainerRepo trainerRepo;
+    private UserRepo userRepo;
 
-    public ApiResponseModel addTrainer(Trainer trainer)
+    public ApiResponseModel addUser(User user)
     {
         try {
-            trainerRepo.save(trainer);
+            user.setRole(UserRoles.trainer);
+            userRepo.save(user);
             return new ApiResponseModel(StatusResponse.success,null ,"Trainer Added");
         }catch (Exception e)
         {

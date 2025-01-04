@@ -1,8 +1,7 @@
 package com.yash.HrManager.controller;
 
-import com.yash.HrManager.Entity.Trainer;
+import com.yash.HrManager.Entity.User;
 import com.yash.HrManager.Entity.enums.UserRoles;
-import com.yash.HrManager.Entity.models.ApiRequestModelTraining;
 import com.yash.HrManager.Entity.models.ApiResponseModel;
 import com.yash.HrManager.service.TrainerService;
 import com.yash.HrManager.service.UserAuthorizationService;
@@ -23,9 +22,9 @@ public class TrainerController {
 
 
     @PostMapping("/register")
-    public ApiResponseModel addTrainer(@RequestBody Trainer trainer)
+    public ApiResponseModel addTrainer(@RequestBody User user)
     {
-        return  trainerService.addTrainer(trainer);
+        return  trainerService.addUser(user);
     }
 
     @PostMapping("/login")
@@ -33,5 +32,7 @@ public class TrainerController {
     {
         return userAuthorizationService.validateUserLogin(emailId,password);
     }
+
+
 
 }

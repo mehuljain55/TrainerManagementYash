@@ -1,16 +1,17 @@
 package com.yash.HrManager.Entity.models;
 
-import com.yash.HrManager.Entity.Trainer;
 import com.yash.HrManager.Entity.Training;
+import com.yash.HrManager.Entity.User;
 
 public class ApiRequestModelTraining {
     private String token;
-    private Trainer trainer;
+    private User user;
     private Training training;
 
-    public ApiRequestModelTraining(String token, Trainer trainer, Training training) {
+
+    public ApiRequestModelTraining(String token, User user, Training training) {
         this.token = token;
-        this.trainer = trainer;
+        this.user = user;
         this.training = training;
     }
 
@@ -25,12 +26,12 @@ public class ApiRequestModelTraining {
         this.token = token;
     }
 
-    public Trainer getTrainer() {
-        return trainer;
+    public User getUser() {
+        return user;
     }
 
-    public void setTrainer(Trainer trainer) {
-        this.trainer = trainer;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Training getTraining() {

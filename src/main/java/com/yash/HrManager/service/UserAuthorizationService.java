@@ -1,13 +1,13 @@
 package com.yash.HrManager.service;
 
-import com.yash.HrManager.Entity.Trainer;
+import com.yash.HrManager.Entity.User;
 import com.yash.HrManager.Entity.enums.StatusResponse;
 import com.yash.HrManager.Entity.enums.UserRoles;
 import com.yash.HrManager.Entity.enums.UserStatus;
 import com.yash.HrManager.Entity.models.ApiResponseModel;
 import com.yash.HrManager.Entity.models.UserLoginModel;
-import com.yash.HrManager.repository.TrainerRepo;
-import com.yash.HrManager.repository.TraniningRepo;
+import com.yash.HrManager.repository.UserRepo;
+
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,25 +18,25 @@ import java.util.Optional;
 public class UserAuthorizationService {
 
     @Autowired
-    private TrainerRepo trainerRepo;
+    private UserRepo userRepo;
 
     @Autowired
     private JwtUtils jwtUtils;
 
     public ApiResponseModel<UserLoginModel> validateUserLogin(String emailId, String password)
     {
-        Optional<Trainer> opt=trainerRepo.findById(emailId);
+        Optional<User> opt= userRepo.findById(emailId);
         if(opt.isPresent())
         {
-            Trainer trainer=opt.get();
-            if(!(trainer.getStatus().equals(UserStatus.active)))
+            User user=opt.get();
+            if(!(user.getStatus().equals(UserStatus.active)))
             {
                 return  new ApiResponseModel<>(StatusResponse.unauthorized,null,"User approval pending");
             }
-            else if((verifyPassword(password,trainer.getPassword())))
+            else if((verifyPassword(password,user.getPassword())))
             {
-                String token=jwtUtils.generateToken(trainer);
-                UserLoginModel userLoginModel=new UserLoginModel(trainer,token);
+                String token=jwtUtils.generateToken(user);
+                UserLoginModel userLoginModel=new UserLoginModel(user,token);
                 return  new ApiResponseModel<>(StatusResponse.success,userLoginModel,"User Validated");
             }else {
                 return  new ApiResponseModel<>(StatusResponse.unauthorized,null,"Invalid password");
@@ -48,10 +48,10 @@ public class UserAuthorizationService {
 
     public boolean validateUserToken(String emailId,String token)
     {
-        Optional<Trainer> opt=trainerRepo.findById(emailId);
+        Optional<User> opt= userRepo.findById(emailId);
         if(opt.isPresent())
         {
-            Trainer user=opt.get();
+            User user=opt.get();
             boolean status=jwtUtils.validateTokenForUser(user,token);
             return  status;
         } else {
@@ -59,13 +59,13 @@ public class UserAuthorizationService {
         }
     }
 
-    public boolean validateUserAccess(Trainer trainer, String token, UserRoles requestedAccessRole)
+    public boolean validateUserAccess(User user, String token, UserRoles requestedAccessRole)
     {
-        Optional<Trainer> opt=trainerRepo.findById(trainer.getEmailId());
+        Optional<User> opt= userRepo.findById(user.getEmailId());
         if(opt.isPresent())
         {
-            Trainer validateTrainer=opt.get();
-            boolean status=jwtUtils.validateTokenForUserRole(validateTrainer,token,requestedAccessRole);
+            User validateUser=opt.get();
+            boolean status=jwtUtils.validateTokenForUserRole(validateUser,token,requestedAccessRole);
             return  status;
         } else {
             return  false;

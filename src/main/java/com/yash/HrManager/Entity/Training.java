@@ -1,6 +1,6 @@
 package com.yash.HrManager.Entity;
 
-import com.yash.HrManager.Entity.enums.TraningStatus;
+import com.yash.HrManager.Entity.enums.TrainingStatus;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -12,7 +12,6 @@ public class Training {
 
     @Id
     private int trainingId;
-    private String trainerId;
     private String emailId;
     private String trainerName;
     private int noOfParticipant;
@@ -22,12 +21,12 @@ public class Training {
     @Temporal(TemporalType.DATE)
     private Date endDate;
     @Enumerated(EnumType.STRING)
-    private TraningStatus status;
+    private TrainingStatus status;
 
     @ManyToMany(mappedBy = "trainingList")
     private List<WeeklySchedule> weeklySchedules;
 
-    public Training(int trainingId, String trainerName, int noOfParticipant, Date startDate, Date endDate, TraningStatus status) {
+    public Training(int trainingId, String trainerName, int noOfParticipant, Date startDate, Date endDate, TrainingStatus status) {
         this.trainingId = trainingId;
         this.trainerName = trainerName;
         this.noOfParticipant = noOfParticipant;
@@ -79,21 +78,15 @@ public class Training {
         this.endDate = endDate;
     }
 
-    public TraningStatus getStatus() {
+    public TrainingStatus getStatus() {
         return status;
     }
 
-    public void setStatus(TraningStatus status) {
+    public void setStatus(TrainingStatus status) {
         this.status = status;
     }
 
-    public String getTrainerId() {
-        return trainerId;
-    }
 
-    public void setTrainerId(String trainerId) {
-        this.trainerId = trainerId;
-    }
 
     public String getEmailId() {
         return emailId;

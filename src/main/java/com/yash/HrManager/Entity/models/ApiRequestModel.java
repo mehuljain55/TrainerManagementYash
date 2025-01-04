@@ -2,16 +2,13 @@ package com.yash.HrManager.Entity.models;
 
 import com.yash.HrManager.Entity.User;
 
-public class UserLoginModel {
+public class ApiRequestModel {
     private String token;
     private User user;
 
-    public UserLoginModel(User user,String token) {
+    public ApiRequestModel(String token, User user) {
         this.token = token;
         this.user = user;
-    }
-
-    public UserLoginModel() {
     }
 
     public String getToken() {
