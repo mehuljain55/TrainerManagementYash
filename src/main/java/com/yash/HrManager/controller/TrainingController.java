@@ -23,10 +23,12 @@ public class TrainingController {
 
     @PostMapping("/addNewTraining")
     public ApiResponseModel createNewTraining(@RequestBody ApiRequestModelTraining training){
+        System.out.println(training.getUser());
+        System.out.println(training.getToken());
         boolean validateAccess=userAuthorizationService.validateUserToken(training.getUser().getEmailId(),training.getToken());
         if(validateAccess)
         {
-            return trainingService.addNewTraining(training.getTraining());
+            return trainingService.addNewTraining(training.getUser(),training.getTraining());
         }else {
             return new ApiResponseModel(StatusResponse.unauthorized, null, "Unauthorized Access");
         }

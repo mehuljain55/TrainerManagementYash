@@ -2,6 +2,7 @@ package com.yash.HrManager.service;
 
 import com.yash.HrManager.Entity.Training;
 import com.yash.HrManager.Entity.User;
+import com.yash.HrManager.Entity.WeeklySchedule;
 import com.yash.HrManager.Entity.enums.StatusResponse;
 import com.yash.HrManager.Entity.enums.TrainingStatus;
 import com.yash.HrManager.Entity.models.ApiResponseModel;
@@ -17,12 +18,20 @@ public class TrainingService {
     @Autowired
     private TraniningRepo traniningRepo;
 
-    public ApiResponseModel addNewTraining(Training trainingRequest)
+    @Autowired
+    private WeeklyScheduleService weeklyScheduleService;
+
+    public ApiResponseModel addNewTraining(User user,Training trainingRequest)
     {
         try {
+          List<WeeklySchedule> weeklyScheduleList=weeklyScheduleService.generateWeeklySchedule(trainingRequest.getStartDate(),trainingRequest.getEndDate());
           trainingRequest.setStatus(TrainingStatus.PLANNED);
+          trainingRequest.setEmailId(user.getEmailId());
+          trainingRequest.setTrainerName(user.getName());
+          trainingRequest.setWeeklySchedules(weeklyScheduleList);
+            System.out.println(trainingRequest);
           Training training= traniningRepo.save(trainingRequest);
-          return new ApiResponseModel<>(StatusResponse.failed,null,"Unable to add training");
+          return new ApiResponseModel<>(StatusResponse.success,null,"Training Added");
         }catch (Exception e)
         {
             e.printStackTrace();
@@ -38,7 +47,7 @@ public class TrainingService {
             {
                 return new ApiResponseModel<>(StatusResponse.success,trainings,"Training found");
             }else{
-                return new ApiResponseModel<>(StatusResponse.not_found,null,"No traning found");
+                return new ApiResponseModel<>(StatusResponse.not_found,null,"No training found");
             }
         }catch (Exception e)
         {

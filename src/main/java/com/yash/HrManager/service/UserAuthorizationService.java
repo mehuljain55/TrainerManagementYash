@@ -23,6 +23,22 @@ public class UserAuthorizationService {
     @Autowired
     private JwtUtils jwtUtils;
 
+    public ApiResponseModel addUser(User user)
+    {
+        try {
+            user.setRole(UserRoles.trainer);
+            user.setStatus(UserStatus.active);
+            user.setPassword(hashPassword(user.getPassword()));
+            userRepo.save(user);
+            return new ApiResponseModel(StatusResponse.success,null ,"Trainer Added");
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+            return new ApiResponseModel(StatusResponse.failed,null ,"Unable to add trainer");
+        }
+    }
+
+
     public ApiResponseModel<UserLoginModel> validateUserLogin(String emailId, String password)
     {
         Optional<User> opt= userRepo.findById(emailId);

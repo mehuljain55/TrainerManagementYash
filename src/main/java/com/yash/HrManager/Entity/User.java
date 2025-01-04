@@ -2,30 +2,31 @@ package com.yash.HrManager.Entity;
 
 import com.yash.HrManager.Entity.enums.UserRoles;
 import com.yash.HrManager.Entity.enums.UserStatus;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name="trainer")
+@Table(name="user")
 public class User {
 
     @Id
     private String emailId;
-    private String trainerName;
+    private String name;
+    @Enumerated(EnumType.STRING)
     private UserRoles role;
     private String password;
+    @Enumerated(EnumType.STRING)
     private UserStatus status;
+    private String officeId;
 
     public User() {
     }
 
-    public String getTrainerName() {
-        return trainerName;
+    public String getName() {
+        return name;
     }
 
-    public void setTrainerName(String trainerName) {
-        this.trainerName = trainerName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassword() {
@@ -58,5 +59,25 @@ public class User {
 
     public void setStatus(UserStatus status) {
         this.status = status;
+    }
+
+    public String getOfficeId() {
+        return officeId;
+    }
+
+    public void setOfficeId(String officeId) {
+        this.officeId = officeId;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "emailId='" + emailId + '\'' +
+                ", name='" + name + '\'' +
+                ", role=" + role +
+                ", password='" + password + '\'' +
+                ", status=" + status +
+                ", officeId='" + officeId + '\'' +
+                '}';
     }
 }

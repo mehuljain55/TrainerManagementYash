@@ -15,16 +15,11 @@ public class TrainerService {
     @Autowired
     private UserRepo userRepo;
 
-    public ApiResponseModel addUser(User user)
-    {
-        try {
-            user.setRole(UserRoles.trainer);
-            userRepo.save(user);
-            return new ApiResponseModel(StatusResponse.success,null ,"Trainer Added");
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-            return new ApiResponseModel(StatusResponse.failed,null ,"Unable to add trainer");
-        }
-    }
+    @Autowired
+    private JwtUtils jwtUtils;
+
+
+
+
+
 }

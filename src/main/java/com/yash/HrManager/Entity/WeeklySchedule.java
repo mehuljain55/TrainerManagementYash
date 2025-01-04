@@ -1,12 +1,14 @@
 package com.yash.HrManager.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="weekly_schedule")
+@Table(name = "weekly_schedule")
 public class WeeklySchedule {
 
     @Id
@@ -14,21 +16,22 @@ public class WeeklySchedule {
     private int weekId;
 
     @Temporal(TemporalType.DATE)
+    @Column(unique = true, nullable = false)
     private Date weekStartDate;
 
     @Temporal(TemporalType.DATE)
+    @Column(unique = true, nullable = false)
     private Date weekEndDate;
 
     @OneToMany(mappedBy = "weeklySchedule", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference("weeklySchedule-dailySchedules")
     private List<DailySchedule> schedules;
 
-    @ManyToMany
-    @JoinTable(
-            name = "training_schedule", // Custom join table name
-            joinColumns = @JoinColumn(name = "week_id"), // Corrected `joinColumns`
-            inverseJoinColumns = @JoinColumn(name = "training_id") // Corrected `inverseJoinColumns`
-    )
+    @ManyToMany(mappedBy = "weeklySchedules")
+    @JsonBackReference("training-weeklySchedules")
     private List<Training> trainingList;
+
+    public WeeklySchedule() {}
 
     public WeeklySchedule(int weekId, Date weekStartDate, Date weekEndDate, List<DailySchedule> schedules, List<Training> trainingList) {
         this.weekId = weekId;
@@ -36,9 +39,6 @@ public class WeeklySchedule {
         this.weekEndDate = weekEndDate;
         this.schedules = schedules;
         this.trainingList = trainingList;
-    }
-
-    public WeeklySchedule() {
     }
 
     public int getWeekId() {

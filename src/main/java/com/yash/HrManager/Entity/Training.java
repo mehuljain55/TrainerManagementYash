@@ -1,5 +1,6 @@
 package com.yash.HrManager.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.yash.HrManager.Entity.enums.TrainingStatus;
 import jakarta.persistence.*;
 
@@ -30,8 +31,16 @@ public class Training {
     @Enumerated(EnumType.STRING)
     private TrainingStatus status;
 
-    @ManyToMany(mappedBy = "trainingList")
+    @ManyToMany
+    @JoinTable(
+            name = "training_weekly_schedule",
+            joinColumns = @JoinColumn(name = "training_id"),
+            inverseJoinColumns = @JoinColumn(name = "week_id")
+    )
+    @JsonManagedReference("training-weeklySchedules")
     private List<WeeklySchedule> weeklySchedules;
+
+    public Training() {}
 
     public Training(int trainingId, String emailId, String trainerName, int noOfParticipant, String description, Date startDate, Date endDate, TrainingStatus status, List<WeeklySchedule> weeklySchedules) {
         this.trainingId = trainingId;
@@ -43,9 +52,6 @@ public class Training {
         this.endDate = endDate;
         this.status = status;
         this.weeklySchedules = weeklySchedules;
-    }
-
-    public Training() {
     }
 
     public int getTrainingId() {
