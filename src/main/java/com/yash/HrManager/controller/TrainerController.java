@@ -20,11 +20,10 @@ public class TrainerController {
 
     private final UserRoles accessRole=UserRoles.trainer;
 
-
     @PostMapping("/register")
-    public ApiResponseModel addTrainer(@RequestBody User user)
+    public ApiResponseModel addUser(@RequestBody User user)
     {
-        return  trainerService.addUser(user);
+        return trainerService.addUser(user);
     }
 
     @PostMapping("/login")
@@ -32,5 +31,4 @@ public class TrainerController {
     {
         return userAuthorizationService.validateUserLogin(emailId,password);
     }
-
 }

@@ -8,6 +8,7 @@ import java.util.List;
 @Entity
 @Table(name="weekly_schedule")
 public class WeeklySchedule {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int weekId;
