@@ -11,30 +11,25 @@ public class User {
     @Id
     private String emailId;
     private String name;
+
     @Enumerated(EnumType.STRING)
     private UserRoles role;
     private String password;
+
     @Enumerated(EnumType.STRING)
     private UserStatus status;
     private String officeId;
 
-    public User() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public User(String emailId, String name, UserRoles role, String password, UserStatus status, String officeId) {
+        this.emailId = emailId;
         this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
+        this.role = role;
         this.password = password;
+        this.status = status;
+        this.officeId = officeId;
+    }
+
+    public User() {
     }
 
     public String getEmailId() {
@@ -45,12 +40,28 @@ public class User {
         this.emailId = emailId;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public UserRoles getRole() {
         return role;
     }
 
     public void setRole(UserRoles role) {
         this.role = role;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public UserStatus getStatus() {
@@ -67,17 +78,5 @@ public class User {
 
     public void setOfficeId(String officeId) {
         this.officeId = officeId;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "emailId='" + emailId + '\'' +
-                ", name='" + name + '\'' +
-                ", role=" + role +
-                ", password='" + password + '\'' +
-                ", status=" + status +
-                ", officeId='" + officeId + '\'' +
-                '}';
     }
 }

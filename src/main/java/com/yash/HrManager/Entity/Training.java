@@ -1,6 +1,7 @@
 package com.yash.HrManager.Entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.yash.HrManager.Entity.enums.TrainingStatus;
 import jakarta.persistence.*;
 
@@ -10,6 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "training")
 public class Training {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int trainingId;
@@ -31,16 +33,14 @@ public class Training {
     @Enumerated(EnumType.STRING)
     private TrainingStatus status;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "training_weekly_schedule",
             joinColumns = @JoinColumn(name = "training_id"),
-            inverseJoinColumns = @JoinColumn(name = "week_id")
+            inverseJoinColumns = @JoinColumn(name = "weekly_schedule_id")
     )
-    @JsonManagedReference("training-weeklySchedules")
+    @JsonManagedReference
     private List<WeeklySchedule> weeklySchedules;
-
-    public Training() {}
 
     public Training(int trainingId, String emailId, String trainerName, int noOfParticipant, String description, Date startDate, Date endDate, TrainingStatus status, List<WeeklySchedule> weeklySchedules) {
         this.trainingId = trainingId;
@@ -52,6 +52,9 @@ public class Training {
         this.endDate = endDate;
         this.status = status;
         this.weeklySchedules = weeklySchedules;
+    }
+
+    public Training() {
     }
 
     public int getTrainingId() {

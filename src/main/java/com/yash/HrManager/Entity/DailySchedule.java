@@ -1,6 +1,7 @@
 package com.yash.HrManager.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -13,10 +14,10 @@ public class DailySchedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int sno;
 
-    @ManyToOne
-    @JoinColumn(name = "training_id", nullable = false)
-    @JsonBackReference("training-weeklySchedules")
-    private Training training;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "weekly_schedule_id", nullable = false)
+    @JsonBackReference
+    private WeeklySchedule weeklySchedule;
 
     private String emailId;
 
@@ -25,21 +26,15 @@ public class DailySchedule {
 
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "week_id", nullable = false)
-    @JsonBackReference("weeklySchedule-dailySchedules")
-    private WeeklySchedule weeklySchedule;
-
-
-    public DailySchedule() {}
-
-    public DailySchedule(int sno, Training training, String emailId, Date date, String description, WeeklySchedule weeklySchedule) {
+    public DailySchedule(int sno, WeeklySchedule weeklySchedule, String emailId, Date date, String description) {
         this.sno = sno;
-        this.training = training;
+        this.weeklySchedule = weeklySchedule;
         this.emailId = emailId;
         this.date = date;
         this.description = description;
-        this.weeklySchedule = weeklySchedule;
+    }
+
+    public DailySchedule() {
     }
 
     public int getSno() {
@@ -50,12 +45,12 @@ public class DailySchedule {
         this.sno = sno;
     }
 
-    public Training getTraining() {
-        return training;
+    public WeeklySchedule getWeeklySchedule() {
+        return weeklySchedule;
     }
 
-    public void setTraining(Training training) {
-        this.training = training;
+    public void setWeeklySchedule(WeeklySchedule weeklySchedule) {
+        this.weeklySchedule = weeklySchedule;
     }
 
     public String getEmailId() {
@@ -80,13 +75,5 @@ public class DailySchedule {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public WeeklySchedule getWeeklySchedule() {
-        return weeklySchedule;
-    }
-
-    public void setWeeklySchedule(WeeklySchedule weeklySchedule) {
-        this.weeklySchedule = weeklySchedule;
     }
 }
