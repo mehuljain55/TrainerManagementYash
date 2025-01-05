@@ -4,9 +4,7 @@ import com.yash.HrManager.Entity.User;
 import com.yash.HrManager.Entity.enums.StatusResponse;
 import com.yash.HrManager.Entity.models.ApiResponseModel;
 import com.yash.HrManager.service.TrainerService;
-import com.yash.HrManager.service.TrainingService;
 import com.yash.HrManager.service.UserAuthorizationService;
-import jakarta.persistence.Access;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
