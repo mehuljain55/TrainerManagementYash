@@ -27,7 +27,7 @@ public class UserAuthorizationService {
     {
         try {
             user.setRole(UserRoles.trainer);
-            user.setStatus(UserStatus.active);
+            user.setStatus(UserStatus.not_active);
             user.setPassword(hashPassword(user.getPassword()));
             userRepo.save(user);
             return new ApiResponseModel(StatusResponse.success,null ,"Trainer Added");

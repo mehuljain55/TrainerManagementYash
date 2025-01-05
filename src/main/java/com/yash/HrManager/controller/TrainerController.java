@@ -42,7 +42,7 @@ public class TrainerController {
     private List<WeeklySchedule> weekDetails(@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
                                                     @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate)
     {
-        return  weeklyScheduleService.getWeekByDates(startDate,endDate);
+        return  weeklyScheduleService.generateWeeklySchedule(startDate,endDate);
     }
 
 }

@@ -2,6 +2,7 @@ package com.yash.HrManager.controller;
 
 import com.yash.HrManager.Entity.enums.StatusResponse;
 import com.yash.HrManager.Entity.enums.UserRoles;
+import com.yash.HrManager.Entity.models.ApiRequestModel;
 import com.yash.HrManager.Entity.models.ApiRequestModelTraining;
 import com.yash.HrManager.Entity.models.ApiResponseModel;
 import com.yash.HrManager.service.TrainingService;
@@ -35,12 +36,13 @@ public class TrainingController {
     }
 
     @PostMapping("/viewTrainingListByEmailAndStatus")
-    public ApiResponseModel viewTrainingListByEmailAndStatus(@RequestBody ApiRequestModelTraining training)
+    public ApiResponseModel viewTrainingListByEmailAndStatus(@RequestBody ApiRequestModel training)
     {
         boolean validateAccess=userAuthorizationService.validateUserToken(training.getUser().getEmailId(),training.getToken());
         if(validateAccess)
         {
-            return trainingService.findTrainingsByEmailAndStatus(training.getUser(),training.getTraining().getStatus());
+
+            return trainingService.findTrainingsByEmailAndStatus(training.getUser(),training.getTrainingStatus());
         }else {
             return new ApiResponseModel(StatusResponse.unauthorized, null, "Unauthorized Access");
         }

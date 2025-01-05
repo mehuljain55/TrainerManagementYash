@@ -43,8 +43,11 @@ public class TrainingService {
     {
         try {
             List<Training> trainings=traniningRepo.findTrainingsByEmailAndStatus(user.getEmailId(),status);
+            System.out.println(trainings.size());
+            System.out.println(user.getEmailId()+" "+status);
             if(trainings!=null&& trainings.size()>0)
             {
+
                 return new ApiResponseModel<>(StatusResponse.success,trainings,"Training found");
             }else{
                 return new ApiResponseModel<>(StatusResponse.not_found,null,"No training found");
