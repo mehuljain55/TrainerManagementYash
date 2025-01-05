@@ -28,7 +28,7 @@ public class WeeklyScheduleService {
 
         Date normalizedStartDate = calendar.getTime();
         calendar.setTime(endDate);
-        while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.FRIDAY) {
+        while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         }
         Date normalizedEndDate = calendar.getTime();
@@ -37,8 +37,8 @@ public class WeeklyScheduleService {
         calendar.setTime(normalizedStartDate);
         while (!calendar.getTime().after(normalizedEndDate)) {
             Date weekStartDate = calendar.getTime(); // Start of the week (Monday)
-            calendar.add(Calendar.DAY_OF_MONTH, 4);  // Move to Friday
-            Date weekEndDate = calendar.getTime();   // End of the week (Friday)
+            calendar.add(Calendar.DAY_OF_MONTH, 5);  // Move to Saturday (5 days after Monday)
+            Date weekEndDate = calendar.getTime();   // End of the week (Saturday)
 
             // Check if the week exists in the database
             if (!weeklyScheduleRepo.existsByWeekStartDateAndWeekEndDate(weekStartDate, weekEndDate)) {
@@ -49,7 +49,7 @@ public class WeeklyScheduleService {
             }
 
             // Move to the next Monday
-            calendar.add(Calendar.DAY_OF_MONTH, 3);
+            calendar.add(Calendar.DAY_OF_MONTH, 2); // Skip to the next Monday
         }
 
         weeklyScheduleRepo.saveAll(newSchedules);

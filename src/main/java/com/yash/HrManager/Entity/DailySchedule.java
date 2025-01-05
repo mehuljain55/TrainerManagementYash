@@ -21,7 +21,11 @@ public class DailySchedule {
     @JsonBackReference
     private WeeklySchedule weeklySchedule;
 
+    private String day;
+
     private String emailId;
+
+    private int trainingId;
 
     @Temporal(TemporalType.DATE)
     private Date date;
@@ -77,5 +81,34 @@ public class DailySchedule {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getTrainingId() {
+        return trainingId;
+    }
+
+    public void setTrainingId(int trainingId) {
+        this.trainingId = trainingId;
+    }
+
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
+    }
+
+    @Override
+    public String toString() {
+        return "DailySchedule{" +
+                "sno=" + sno +
+                ", weeklySchedule=" + weeklySchedule +
+                ", day='" + day + '\'' +
+                ", emailId='" + emailId + '\'' +
+                ", trainingId=" + trainingId +
+                ", date=" + date +
+                ", description='" + description + '\'' +
+                '}';
     }
 }
