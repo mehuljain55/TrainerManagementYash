@@ -1,10 +1,15 @@
 package com.yash.HrManager.Entity.models;
 
 import com.yash.HrManager.Entity.User;
+import com.yash.HrManager.Entity.enums.TrainingStatus;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 public class ApiRequestModel {
     private String token;
     private User user;
+    @Enumerated(EnumType.STRING)
+    private TrainingStatus trainingStatus;
 
     public ApiRequestModel(String token, User user) {
         this.token = token;
@@ -25,5 +30,13 @@ public class ApiRequestModel {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public TrainingStatus getTrainingStatus() {
+        return trainingStatus;
+    }
+
+    public void setTrainingStatus(TrainingStatus trainingStatus) {
+        this.trainingStatus = trainingStatus;
     }
 }
