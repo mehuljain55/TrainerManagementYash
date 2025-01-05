@@ -1,7 +1,7 @@
 package com.yash.HrManager.Entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -9,6 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "weekly_schedule")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "weekId")
 public class WeeklySchedule {
 
     @Id
@@ -24,11 +25,9 @@ public class WeeklySchedule {
     private Date weekEndDate;
 
     @OneToMany(mappedBy = "weeklySchedule", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonManagedReference
     private List<DailySchedule> schedules;
 
     @ManyToMany(mappedBy = "weeklySchedules", fetch = FetchType.LAZY)
-    @JsonBackReference
     private List<Training> trainingList;
 
     public WeeklySchedule(int weekId, Date weekStartDate, Date weekEndDate, List<DailySchedule> schedules, List<Training> trainingList) {

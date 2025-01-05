@@ -1,13 +1,16 @@
 package com.yash.HrManager.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
 @Table(name = "daily_schedule")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "sno")
 public class DailySchedule {
 
     @Id
@@ -16,7 +19,6 @@ public class DailySchedule {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "weekly_schedule_id", nullable = false)
-    @JsonBackReference
     private WeeklySchedule weeklySchedule;
 
     private String emailId;
