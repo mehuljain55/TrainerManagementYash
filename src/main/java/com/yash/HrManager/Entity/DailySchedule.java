@@ -2,7 +2,6 @@ package com.yash.HrManager.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
@@ -17,8 +16,9 @@ public class DailySchedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int sno;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "weekly_schedule_id", nullable = false)
+    @JsonBackReference
     private WeeklySchedule weeklySchedule;
 
     private String emailId;

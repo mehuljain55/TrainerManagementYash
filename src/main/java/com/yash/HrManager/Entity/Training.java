@@ -1,7 +1,7 @@
 package com.yash.HrManager.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.yash.HrManager.Entity.enums.TrainingStatus;
 import jakarta.persistence.*;
 
@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "training")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "trainingId")
+@JsonIgnoreProperties({"weeklySchedules"})
 public class Training {
 
     @Id
@@ -34,29 +34,16 @@ public class Training {
     @Enumerated(EnumType.STRING)
     private TrainingStatus status;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "training_weekly_schedule",
             joinColumns = @JoinColumn(name = "training_id"),
             inverseJoinColumns = @JoinColumn(name = "weekly_schedule_id")
     )
+    @JsonManagedReference
     private List<WeeklySchedule> weeklySchedules;
 
-    public Training(int trainingId, String emailId, String trainerName, int noOfParticipant, String description, Date startDate, Date endDate, TrainingStatus status, List<WeeklySchedule> weeklySchedules) {
-        this.trainingId = trainingId;
-        this.emailId = emailId;
-        this.trainerName = trainerName;
-        this.noOfParticipant = noOfParticipant;
-        this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.status = status;
-        this.weeklySchedules = weeklySchedules;
-    }
-
-    public Training() {
-    }
-
+    // Getters and Setters
     public int getTrainingId() {
         return trainingId;
     }

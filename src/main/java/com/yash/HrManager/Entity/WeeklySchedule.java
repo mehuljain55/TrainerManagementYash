@@ -1,7 +1,7 @@
 package com.yash.HrManager.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "weekly_schedule")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "weekId")
+@JsonIgnoreProperties({"trainingList"})
 public class WeeklySchedule {
 
     @Id
@@ -24,23 +24,11 @@ public class WeeklySchedule {
     @Column(unique = true, nullable = false)
     private Date weekEndDate;
 
-    @OneToMany(mappedBy = "weeklySchedule", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<DailySchedule> schedules;
-
-    @ManyToMany(mappedBy = "weeklySchedules", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "weeklySchedules", fetch = FetchType.EAGER)
+    @JsonBackReference
     private List<Training> trainingList;
 
-    public WeeklySchedule(int weekId, Date weekStartDate, Date weekEndDate, List<DailySchedule> schedules, List<Training> trainingList) {
-        this.weekId = weekId;
-        this.weekStartDate = weekStartDate;
-        this.weekEndDate = weekEndDate;
-        this.schedules = schedules;
-        this.trainingList = trainingList;
-    }
-
-    public WeeklySchedule() {
-    }
-
+    // Getters and Setters
     public int getWeekId() {
         return weekId;
     }
@@ -63,14 +51,6 @@ public class WeeklySchedule {
 
     public void setWeekEndDate(Date weekEndDate) {
         this.weekEndDate = weekEndDate;
-    }
-
-    public List<DailySchedule> getSchedules() {
-        return schedules;
-    }
-
-    public void setSchedules(List<DailySchedule> schedules) {
-        this.schedules = schedules;
     }
 
     public List<Training> getTrainingList() {
