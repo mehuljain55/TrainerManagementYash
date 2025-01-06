@@ -5,6 +5,7 @@ import com.yash.HrManager.Entity.Training;
 import com.yash.HrManager.Entity.User;
 import com.yash.HrManager.Entity.WeeklySchedule;
 import com.yash.HrManager.Entity.enums.StatusResponse;
+import com.yash.HrManager.Entity.enums.TrainerAttendance;
 import com.yash.HrManager.Entity.enums.TrainingStatus;
 import com.yash.HrManager.Entity.models.ApiResponseModel;
 import com.yash.HrManager.repository.DailyScheduleRepo;
@@ -13,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class TrainingService {
@@ -71,17 +69,68 @@ public class TrainingService {
             return new ApiResponseModel<>(StatusResponse.failed,null,"Unable to find training");
         }
     }
-    public ApiResponseModel<List<DailySchedule>> findDailyScheduleByWeekIdAndTrainingId(Date startDate,Date endDate, int trainingId) {
-      List<WeeklySchedule> weeklyScheduleList=weeklyScheduleService.getWeekByDates(startDate,endDate);
-      List<DailySchedule> dailyScheduleList=new ArrayList<>();
-      for(WeeklySchedule weeklySchedule:weeklyScheduleList)
-      {
-          List<DailySchedule> dailySchedules=dailyScheduleRepo.findDailyScheduleByWeekIdAndTrainingId(weeklySchedule.getWeekId(),trainingId);
-          dailyScheduleList.addAll(dailySchedules);
-      }
-        System.out.println("Size:"+dailyScheduleList.size());
-        return new ApiResponseModel<>(StatusResponse.success,dailyScheduleList,"Training Found");
+    public ApiResponseModel<List<DailySchedule>> findDailyScheduleByWeekIdAndTrainingId(int trainingId) {
+        Optional<Training> optionalTraining=traniningRepo.findById(trainingId);
+        if(optionalTraining.isPresent()) {
+            Training training=optionalTraining.get();
+            List<WeeklySchedule> weeklyScheduleList = weeklyScheduleService.getWeekByDates(training.getStartDate(), training.getEndDate());
+            List<DailySchedule> dailyScheduleList = new ArrayList<>();
+            for (WeeklySchedule weeklySchedule : weeklyScheduleList) {
+                List<DailySchedule> dailySchedules = dailyScheduleRepo.findDailyScheduleByWeekIdAndTrainingId(weeklySchedule.getWeekId(), trainingId);
+                  for(DailySchedule schedule:dailySchedules)
+                  {
+                        schedule.setWeekScheduleId(weeklySchedule.getWeekId());
+                        dailyScheduleList.add(schedule);
+                  }
+
+            }
+            return new ApiResponseModel<>(StatusResponse.success, dailyScheduleList, "Training Found");
+        }else {
+            return new ApiResponseModel<>(StatusResponse.success, null, "Training not found");
+        }
     }
+
+    public ApiResponseModel updateTrainingStatus(List<Training> trainingList)
+    {
+        for(Training trainingDetail:trainingList)
+        {
+            Optional<Training> trainingOptional=traniningRepo.findById(trainingDetail.getTrainingId());
+            if(trainingOptional.isPresent())
+            {
+                Training training=trainingOptional.get();
+                training.setStatus(trainingDetail.getStatus());
+                traniningRepo.save(training);
+            }
+        }
+        return new ApiResponseModel(StatusResponse.success,null,"Training status updated");
+    }
+
+    public ApiResponseModel updateDailySchedule(List<DailySchedule> dailyScheduleList) {
+        for(DailySchedule schedule:dailyScheduleList)
+        {
+            try {
+                Optional<DailySchedule> dailyScheduleOptional=dailyScheduleRepo.findById(schedule.getSno());
+                if(dailyScheduleOptional.isPresent())
+                {
+                    DailySchedule dailySchedule=dailyScheduleOptional.get();
+                    if(schedule.getTrainerAttendance().equals(TrainerAttendance.LEAVE))
+                    {
+                        dailySchedule.setDescription("Trainer on leave");
+                    }else {
+                        dailySchedule.setDescription(schedule.getDescription());
+                    }
+                    dailySchedule.setTrainerAttendance(schedule.getTrainerAttendance());
+                    dailyScheduleRepo.save(dailySchedule);
+                }
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return new ApiResponseModel<>(StatusResponse.success,null,"Daily Schedule Update");
+
+    }
+
 
     public List<Date> generateDatesBetween(Date startDate, Date endDate) {
         List<Date> dates = new ArrayList<>();
@@ -123,6 +172,7 @@ public class TrainingService {
                 dailySchedule.setTrainingId(training.getTrainingId());
                 dailySchedule.setDay(dayFormat.format(date)); // Set day name (e.g., Monday, Tuesday)
                 dailySchedule.setEmailId(user.getEmailId());
+                dailySchedule.setTrainerAttendance(TrainerAttendance.PRESENT);
                 dailySchedules.add(dailySchedule);
             }
         }

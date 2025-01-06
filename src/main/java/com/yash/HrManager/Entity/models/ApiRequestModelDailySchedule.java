@@ -1,9 +1,11 @@
 package com.yash.HrManager.Entity.models;
 
+import com.yash.HrManager.Entity.DailySchedule;
 import com.yash.HrManager.Entity.Training;
 import com.yash.HrManager.Entity.User;
 
 import java.util.Date;
+import java.util.List;
 
 public class ApiRequestModelDailySchedule {
     private String token;
@@ -11,6 +13,8 @@ public class ApiRequestModelDailySchedule {
     private int trainingId;
     private Date startDate;
     private Date endDate;
+    private List<DailySchedule> dailyScheduleList;
+    private DailySchedule dailySchedule;
 
     public ApiRequestModelDailySchedule(String token, User user, Date startDate, Date endDate) {
         this.token = token;
@@ -60,5 +64,21 @@ public class ApiRequestModelDailySchedule {
 
     public void setTrainingId(int trainingId) {
         this.trainingId = trainingId;
+    }
+
+    public List<DailySchedule> getDailyScheduleList() {
+        return dailyScheduleList;
+    }
+
+    public void setDailyScheduleList(List<DailySchedule> dailyScheduleList) {
+        this.dailyScheduleList = dailyScheduleList;
+    }
+
+    public DailySchedule getDailySchedule() {
+        return dailySchedule;
+    }
+
+    public void setDailySchedule(DailySchedule dailySchedule) {
+        this.dailySchedule = dailySchedule;
     }
 }

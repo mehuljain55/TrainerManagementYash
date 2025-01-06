@@ -2,7 +2,9 @@ package com.yash.HrManager.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.yash.HrManager.Entity.enums.TrainerAttendance;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -18,7 +20,7 @@ public class DailySchedule {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "weekly_schedule_id", nullable = false)
-    @JsonBackReference
+     @JsonBackReference
     private WeeklySchedule weeklySchedule;
 
     private String day;
@@ -31,6 +33,12 @@ public class DailySchedule {
     private Date date;
 
     private String description;
+
+    @Transient
+    private int weekScheduleId;
+
+    @Enumerated(EnumType.STRING)
+    private TrainerAttendance trainerAttendance;
 
     public DailySchedule(int sno, WeeklySchedule weeklySchedule, String emailId, Date date, String description) {
         this.sno = sno;
@@ -97,6 +105,22 @@ public class DailySchedule {
 
     public void setDay(String day) {
         this.day = day;
+    }
+
+    public TrainerAttendance getTrainerAttendance() {
+        return trainerAttendance;
+    }
+
+    public void setTrainerAttendance(TrainerAttendance trainerAttendance) {
+        this.trainerAttendance = trainerAttendance;
+    }
+
+    public int getWeekScheduleId() {
+        return weekScheduleId;
+    }
+
+    public void setWeekScheduleId(int weekScheduleId) {
+        this.weekScheduleId = weekScheduleId;
     }
 
     @Override

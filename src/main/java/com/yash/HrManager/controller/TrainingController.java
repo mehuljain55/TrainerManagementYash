@@ -56,10 +56,37 @@ public class TrainingController {
         if(validateAccess)
         {
 
-            return trainingService.findDailyScheduleByWeekIdAndTrainingId(training.getStartDate(),training.getEndDate(),training.getTrainingId());
+            return trainingService.findDailyScheduleByWeekIdAndTrainingId(training.getTrainingId());
         }else {
             return new ApiResponseModel(StatusResponse.unauthorized, null, "Unauthorized Access");
         }
     }
+
+    @PostMapping("/updateDailySchedule")
+    public ApiResponseModel updateDailySchedule(@RequestBody ApiRequestModelDailySchedule training)
+    {
+        boolean validateAccess=userAuthorizationService.validateUserToken(training.getUser().getEmailId(),training.getToken());
+        if(validateAccess)
+        {
+
+            return trainingService.updateDailySchedule(training.getDailyScheduleList());
+        }else {
+            return new ApiResponseModel(StatusResponse.unauthorized, null, "Unauthorized Access");
+        }
+    }
+
+    @PostMapping("/updateDailySchedule")
+    public ApiResponseModel updateTrainingDetail(@RequestBody ApiRequestModelTraining training)
+    {
+        boolean validateAccess=userAuthorizationService.validateUserToken(training.getUser().getEmailId(),training.getToken());
+        if(validateAccess)
+        {
+
+            return trainingService.updateTrainingStatus(training.getTrainingList());
+        }else {
+            return new ApiResponseModel(StatusResponse.unauthorized, null, "Unauthorized Access");
+        }
+    }
+
 
 }
