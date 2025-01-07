@@ -2,7 +2,9 @@ package com.yash.HrManager.controller;
 
 import com.yash.HrManager.Entity.User;
 import com.yash.HrManager.Entity.WeeklySchedule;
+import com.yash.HrManager.Entity.enums.StatusResponse;
 import com.yash.HrManager.Entity.enums.UserRoles;
+import com.yash.HrManager.Entity.models.ApiRequestModelDailySchedule;
 import com.yash.HrManager.Entity.models.ApiResponseModel;
 import com.yash.HrManager.service.TrainerService;
 import com.yash.HrManager.service.UserAuthorizationService;
@@ -38,11 +40,16 @@ public class TrainerController {
      return  weeklyScheduleService.generateWeeklySchedule(startDate,endDate);
     }
 
-    @GetMapping("/weekDetails")
-    private List<WeeklySchedule> weekDetails(@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-                                                    @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate)
+    @PostMapping("/viewTrainerScheduleDateRange")
+    private ApiResponseModel viewTrainerDailyScheduleByDateRange(@RequestBody ApiRequestModelDailySchedule trainerSchedule)
     {
-        return  weeklyScheduleService.generateWeeklySchedule(startDate,endDate);
+        boolean validateAccess=userAuthorizationService.validateUserAccess(trainerSchedule.getUser(),trainerSchedule.getToken(),accessRole);
+        if(validateAccess)
+        {
+            return trainerService.viewTrainerScheduleDateRange(trainerSchedule.getUser().getEmailId(),trainerSchedule.getStartDate(),trainerSchedule.getEndDate());
+        }else {
+            return new ApiResponseModel(StatusResponse.unauthorized, null, "Unauthorized Access");
+        }
     }
 
 }

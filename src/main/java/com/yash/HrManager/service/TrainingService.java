@@ -7,6 +7,7 @@ import com.yash.HrManager.Entity.WeeklySchedule;
 import com.yash.HrManager.Entity.enums.StatusResponse;
 import com.yash.HrManager.Entity.enums.TrainerAttendance;
 import com.yash.HrManager.Entity.enums.TrainingStatus;
+import com.yash.HrManager.Entity.enums.TrainingType;
 import com.yash.HrManager.Entity.models.ApiResponseModel;
 import com.yash.HrManager.repository.DailyScheduleRepo;
 import com.yash.HrManager.repository.TraniningRepo;
@@ -33,7 +34,7 @@ public class TrainingService {
         try {
           Training training= traniningRepo.save(trainingRequest);
           List<WeeklySchedule> weeklyScheduleList=weeklyScheduleService.generateWeeklySchedule(trainingRequest.getStartDate(),trainingRequest.getEndDate());
-          List<DailySchedule> dailySchedules=generateDailySchedule(weeklyScheduleList,user,training);
+          List<DailySchedule> dailySchedules=generateTrainingDailySchedule(weeklyScheduleList,user,training);
             System.out.println(dailySchedules);
           trainingRequest.setStatus(TrainingStatus.PLANNED);
           trainingRequest.setEmailId(user.getEmailId());
@@ -76,7 +77,7 @@ public class TrainingService {
             List<WeeklySchedule> weeklyScheduleList = weeklyScheduleService.getWeekByDates(training.getStartDate(), training.getEndDate());
             List<DailySchedule> dailyScheduleList = new ArrayList<>();
             for (WeeklySchedule weeklySchedule : weeklyScheduleList) {
-                List<DailySchedule> dailySchedules = dailyScheduleRepo.findDailyScheduleByWeekIdAndTrainingId(weeklySchedule.getWeekId(), trainingId);
+                List<DailySchedule> dailySchedules = dailyScheduleRepo.findDailyScheduleByWeekIdANDTrainingType(weeklySchedule.getWeekId(), trainingId,TrainingType.TRAINING);
                   for(DailySchedule schedule:dailySchedules)
                   {
                         schedule.setWeekScheduleId(weeklySchedule.getWeekId());
@@ -154,7 +155,7 @@ public class TrainingService {
         return dates;
     }
 
-    List<DailySchedule> generateDailySchedule(List<WeeklySchedule> weeklyScheduleList,User user,Training training)
+    List<DailySchedule> generateTrainingDailySchedule(List<WeeklySchedule> weeklyScheduleList,User user,Training training)
     {
         List<Date> dateList = generateDatesBetween(training.getStartDate(), training.getEndDate());
         SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE"); // Formatter for day names
@@ -172,6 +173,7 @@ public class TrainingService {
                 dailySchedule.setTrainingId(training.getTrainingId());
                 dailySchedule.setDay(dayFormat.format(date)); // Set day name (e.g., Monday, Tuesday)
                 dailySchedule.setEmailId(user.getEmailId());
+                dailySchedule.setType(TrainingType.TRAINING);
                 dailySchedule.setTrainerAttendance(TrainerAttendance.PRESENT);
                 dailySchedules.add(dailySchedule);
             }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.yash.HrManager.Entity.enums.TrainerAttendance;
+import com.yash.HrManager.Entity.enums.TrainingType;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -28,6 +29,9 @@ public class DailySchedule {
     private String emailId;
 
     private int trainingId;
+
+    @Enumerated(EnumType.STRING)
+    private TrainingType type;
 
     @Temporal(TemporalType.DATE)
     private Date date;
@@ -121,6 +125,14 @@ public class DailySchedule {
 
     public void setWeekScheduleId(int weekScheduleId) {
         this.weekScheduleId = weekScheduleId;
+    }
+
+    public TrainingType getType() {
+        return type;
+    }
+
+    public void setType(TrainingType type) {
+        this.type = type;
     }
 
     @Override

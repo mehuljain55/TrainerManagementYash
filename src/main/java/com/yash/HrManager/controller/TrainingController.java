@@ -75,8 +75,8 @@ public class TrainingController {
         }
     }
 
-    @PostMapping("/updateDailySchedule")
-    public ApiResponseModel updateTrainingDetail(@RequestBody ApiRequestModelTraining training)
+    @PostMapping("/updateTrainingStatus")
+    public ApiResponseModel updateTrainingStatus(@RequestBody ApiRequestModelTraining training)
     {
         boolean validateAccess=userAuthorizationService.validateUserToken(training.getUser().getEmailId(),training.getToken());
         if(validateAccess)
@@ -87,6 +87,5 @@ public class TrainingController {
             return new ApiResponseModel(StatusResponse.unauthorized, null, "Unauthorized Access");
         }
     }
-
 
 }
