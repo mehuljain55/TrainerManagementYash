@@ -24,4 +24,7 @@ public interface DailyScheduleRepo extends JpaRepository<DailySchedule,Integer> 
             @Param("endDate") Date endDate
     );
 
+    @Query("SELECT d FROM DailySchedule d WHERE d.trainingId = :trainingId")
+    List<DailySchedule> findDailyScheduleByTrainingId(@Param("trainingId") int trainingId);
+
 }

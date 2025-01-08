@@ -10,6 +10,7 @@ public class ApiRequestModelTraining {
     private User user;
     private Training training;
     private List<Training> trainingList;
+    private int trainingId;
 
 
     public ApiRequestModelTraining(String token, User user, Training training) {
@@ -51,5 +52,13 @@ public class ApiRequestModelTraining {
 
     public void setTrainingList(List<Training> trainingList) {
         this.trainingList = trainingList;
+    }
+
+    public int getTrainingId() {
+        return trainingId;
+    }
+
+    public void setTrainingId(int trainingId) {
+        this.trainingId = trainingId;
     }
 }

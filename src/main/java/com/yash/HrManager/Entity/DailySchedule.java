@@ -21,7 +21,7 @@ public class DailySchedule {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "weekly_schedule_id", nullable = false)
-     @JsonBackReference
+    @JsonBackReference
     private WeeklySchedule weeklySchedule;
 
     private String day;

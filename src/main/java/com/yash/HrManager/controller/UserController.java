@@ -38,13 +38,12 @@ public class UserController {
         if(status)
         {
             apiResponseModel=new ApiResponseModel<>(StatusResponse.authorized,null,"Valid token");
-        }
-        else {
+        } else {
             apiResponseModel=new ApiResponseModel<>(StatusResponse.unauthorized,null,"Invalid token");
         }
-
         return apiResponseModel;
     }
+
 
 
 }

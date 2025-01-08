@@ -181,4 +181,28 @@ public class TrainingService {
         return dailySchedules;
     }
 
+    public ApiResponseModel deleteTrainingUserandTrainingId(int trainingId,User user)
+    {
+        try {
+         Training training=traniningRepo.findTrainingsByEmailAndTrainingId(user.getEmailId(),trainingId);
+            System.out.println("Training delete initilzation");
+         if(training!=null)
+         {
+             List<DailySchedule> dailyScheduleList=dailyScheduleRepo.findDailyScheduleByTrainingId(trainingId);
+             dailyScheduleRepo.deleteAll(dailyScheduleList);
+
+             traniningRepo.delete(training);
+             System.out.println("Training deleted");
+             return new ApiResponseModel(StatusResponse.success,null,"Training Deleted");
+         }else {
+             return new ApiResponseModel(StatusResponse.not_found,null,"Training not found");
+         }
+
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+            return new ApiResponseModel(StatusResponse.failed,null,"Unable to delete training");
+        }
+    }
+
 }
