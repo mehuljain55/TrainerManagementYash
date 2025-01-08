@@ -132,23 +132,19 @@ public class TrainingService {
 
     }
 
-
     public List<Date> generateDatesBetween(Date startDate, Date endDate) {
         List<Date> dates = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(startDate);
 
-        // Loop through all dates starting from the startDate to the endDate
         while (!calendar.getTime().after(endDate)) {
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 
-            // Only add weekdays (Monday to Friday)
             if (dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY) {
                 dates.add(calendar.getTime());
                 System.out.println("Adding: " + calendar.getTime()); // Debugging output
             }
 
-            // Move to the next day
             calendar.add(Calendar.DATE, 1);
         }
 
@@ -185,14 +181,11 @@ public class TrainingService {
     {
         try {
          Training training=traniningRepo.findTrainingsByEmailAndTrainingId(user.getEmailId(),trainingId);
-            System.out.println("Training delete initilzation");
          if(training!=null)
          {
              List<DailySchedule> dailyScheduleList=dailyScheduleRepo.findDailyScheduleByTrainingId(trainingId);
              dailyScheduleRepo.deleteAll(dailyScheduleList);
-
              traniningRepo.delete(training);
-             System.out.println("Training deleted");
              return new ApiResponseModel(StatusResponse.success,null,"Training Deleted");
          }else {
              return new ApiResponseModel(StatusResponse.not_found,null,"Training not found");
