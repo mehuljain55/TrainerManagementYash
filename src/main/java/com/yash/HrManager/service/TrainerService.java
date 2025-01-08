@@ -35,12 +35,4 @@ public class TrainerService {
            return new ApiResponseModel<>(StatusResponse.not_found,null,"Daily Schedule not found");
        }
     }
-
-
-
-
-
-
-
-
 }
