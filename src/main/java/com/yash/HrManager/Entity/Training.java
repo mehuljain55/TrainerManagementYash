@@ -43,7 +43,7 @@ public class Training {
     @JsonManagedReference
     private List<WeeklySchedule> weeklySchedules;
 
-    // Getters and Setters
+
     public int getTrainingId() {
         return trainingId;
     }

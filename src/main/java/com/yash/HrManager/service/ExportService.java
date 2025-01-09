@@ -96,9 +96,8 @@ public class ExportService {
         header.createCell(2).setCellValue("Trainer Name");
         header.createCell(3).setCellValue("No. of Participants");
         header.createCell(4).setCellValue("Description");
-        header.createCell(5).setCellValue("Start Date");
-        header.createCell(6).setCellValue("End Date");
-        header.createCell(7).setCellValue("Status");
+        header.createCell(5).setCellValue("Date");
+
 
         for (int i = 0; i < 8; i++) {
             header.getCell(i).setCellStyle(headerCellStyle);
@@ -110,19 +109,18 @@ public class ExportService {
         int rowNum = 1;
         for (DailySchedule schedule : dailyScheduleList) {
             Row row = sheet.createRow(rowNum++);
-            row.createCell(0).setCellValue(training.getTrainingId());
-            row.createCell(1).setCellValue(training.getEmailId());
-            row.createCell(2).setCellValue(training.getTrainerName());
-            row.createCell(3).setCellValue(training.getNoOfParticipant());
-            row.createCell(4).setCellValue(training.getDescription());
+            row.createCell(0).setCellValue(schedule.getTrainingId());
+            row.createCell(1).setCellValue(schedule.getEmailId());
+            row.createCell(2).setCellValue(schedule.getDescription());
+            row.createCell(3).setCellValue(schedule.getDate());
+            row.createCell(4).setCellValue(schedule.getDescription());
 
             Cell startDateCell = row.createCell(5);
-            startDateCell.setCellValue(dateFormat.format(training.getStartDate()));
+            startDateCell.setCellValue(dateFormat.format(schedule.getDate()));
 
-            Cell endDateCell = row.createCell(6);
-            endDateCell.setCellValue(dateFormat.format(training.getEndDate()));
 
-            row.createCell(7).setCellValue(training.getStatus().toString());
+
+
         }
 
         sheet.setColumnWidth(0, 4000); // Training ID
