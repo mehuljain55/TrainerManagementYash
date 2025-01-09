@@ -68,7 +68,6 @@ public class TrainingController {
         boolean validateAccess=userAuthorizationService.validateUserToken(training.getUser().getEmailId(),training.getToken());
         if(validateAccess)
         {
-
             return trainingService.updateDailySchedule(training.getDailyScheduleList());
         }else {
             return new ApiResponseModel(StatusResponse.unauthorized, null, "Unauthorized Access");
@@ -81,7 +80,6 @@ public class TrainingController {
         boolean validateAccess=userAuthorizationService.validateUserToken(training.getUser().getEmailId(),training.getToken());
         if(validateAccess)
         {
-
             return trainingService.updateTrainingStatus(training.getTrainingList());
         }else {
             return new ApiResponseModel(StatusResponse.unauthorized, null, "Unauthorized Access");

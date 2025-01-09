@@ -69,4 +69,17 @@ public class TrainerController {
         }
     }
 
+    @PostMapping("/addTrainerDailySchedule")
+    private ApiResponseModel addTrainerDailySchedule(@RequestBody ApiRequestModelDailySchedule training)
+    {
+        boolean validateAccess=userAuthorizationService.validateUserAccess(training.getUser(),training.getToken(),accessRole);
+        if(validateAccess)
+        {
+            return trainerService.addTrainerDailySchedule(training.getDailyScheduleList(),training.getUser());
+        }else {
+            return new ApiResponseModel(StatusResponse.unauthorized, null, "Unauthorized Access");
+        }
+    }
+
+
 }
