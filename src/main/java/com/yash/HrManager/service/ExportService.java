@@ -2,7 +2,6 @@ package com.yash.HrManager.service;
 
 import com.yash.HrManager.Entity.DailySchedule;
 import com.yash.HrManager.Entity.Training;
-import com.yash.HrManager.Entity.WeeklySchedule;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
@@ -98,7 +97,6 @@ public class ExportService {
         header.createCell(4).setCellValue("Description");
         header.createCell(5).setCellValue("Date");
 
-
         for (int i = 0; i < 8; i++) {
             header.getCell(i).setCellStyle(headerCellStyle);
         }
@@ -118,25 +116,17 @@ public class ExportService {
             Cell startDateCell = row.createCell(5);
             startDateCell.setCellValue(dateFormat.format(schedule.getDate()));
 
-
-
-
         }
 
         sheet.setColumnWidth(0, 4000); // Training ID
         sheet.setColumnWidth(1, 8000); // Email ID
         sheet.setColumnWidth(2, 6000); // Trainer Name
-        sheet.setColumnWidth(3, 4000); // No. of Participants
-        sheet.setColumnWidth(4, 8000); // Description
-        sheet.setColumnWidth(5, 4000); // Start Date
-        sheet.setColumnWidth(6, 4000); // End Date
-        sheet.setColumnWidth(7, 4000); // Status
-
+        sheet.setColumnWidth(3, 8000); // Description
+        sheet.setColumnWidth(4, 4000); // Start Date
 
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
             workbook.write(byteArrayOutputStream);
             return byteArrayOutputStream.toByteArray();
         }
     }
-
 }
