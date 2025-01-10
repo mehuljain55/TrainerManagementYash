@@ -36,7 +36,7 @@ public class TrainingService {
           List<WeeklySchedule> weeklyScheduleList=weeklyScheduleService.generateWeeklySchedule(trainingRequest.getStartDate(),trainingRequest.getEndDate());
           List<DailySchedule> dailySchedules=generateTrainingDailySchedule(weeklyScheduleList,user,training);
             System.out.println(dailySchedules);
-          trainingRequest.setStatus(TrainingStatus.PLANNED);
+          trainingRequest.setStatus(TrainingStatus.PENDING);
           trainingRequest.setEmailId(user.getEmailId());
           trainingRequest.setTrainerName(user.getName());
           trainingRequest.setWeeklySchedules(weeklyScheduleList);
@@ -83,7 +83,6 @@ public class TrainingService {
                         schedule.setWeekScheduleId(weeklySchedule.getWeekId());
                         dailyScheduleList.add(schedule);
                   }
-
             }
             return new ApiResponseModel<>(StatusResponse.success, dailyScheduleList, "Training Found");
         }else {
@@ -144,14 +143,13 @@ public class TrainingService {
                 dates.add(calendar.getTime());
                 System.out.println("Adding: " + calendar.getTime()); // Debugging output
             }
-
             calendar.add(Calendar.DATE, 1);
         }
 
         return dates;
     }
 
-    List<DailySchedule> generateTrainingDailySchedule(List<WeeklySchedule> weeklyScheduleList,User user,Training training)
+    public List<DailySchedule> generateTrainingDailySchedule(List<WeeklySchedule> weeklyScheduleList,User user,Training training)
     {
         List<Date> dateList = generateDatesBetween(training.getStartDate(), training.getEndDate());
         SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE"); // Formatter for day names
@@ -190,7 +188,6 @@ public class TrainingService {
          }else {
              return new ApiResponseModel(StatusResponse.not_found,null,"Training not found");
          }
-
         }catch (Exception e)
         {
             e.printStackTrace();

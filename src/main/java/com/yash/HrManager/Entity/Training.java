@@ -17,7 +17,12 @@ public class Training {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int trainingId;
 
+
+    private String trainingName;
+
     private String emailId;
+
+
 
     private String trainerName;
 
@@ -114,5 +119,13 @@ public class Training {
 
     public void setWeeklySchedules(List<WeeklySchedule> weeklySchedules) {
         this.weeklySchedules = weeklySchedules;
+    }
+
+    public String getTrainingName() {
+        return trainingName;
+    }
+
+    public void setTrainingName(String trainingName) {
+        this.trainingName = trainingName;
     }
 }
