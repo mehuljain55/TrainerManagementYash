@@ -10,6 +10,7 @@ import com.yash.HrManager.service.TrainingService;
 import com.yash.HrManager.service.UserAuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/training")
@@ -23,14 +24,13 @@ public class TrainingController {
 
     private final UserRoles accessRole=UserRoles.trainer;
 
-    @PostMapping("/addNewTraining")
-    public ApiResponseModel createNewTraining(@RequestBody ApiRequestModelTraining training){
-        System.out.println(training.getUser());
-        System.out.println(training.getToken());
-        boolean validateAccess=userAuthorizationService.validateUserToken(training.getUser().getEmailId(),training.getToken());
+    @PostMapping(value = "/addNewTraining", consumes = "multipart/form-data")
+    public ApiResponseModel createNewTraining(     @RequestParam("file") MultipartFile file, // File from multipart
+                                                   @RequestBody ApiRequestModelTraining training){
+      boolean validateAccess=userAuthorizationService.validateUserToken(training.getUser().getEmailId(),training.getToken());
         if(validateAccess)
         {
-            return trainingService.addNewTraining(training.getUser(),training.getTraining());
+            return trainingService.addNewTraining(training.getUser(),training.getTraining(),file);
         }else {
             return new ApiResponseModel(StatusResponse.unauthorized, null, "Unauthorized Access");
         }

@@ -2,6 +2,7 @@ package com.yash.HrManager.Entity.models;
 
 import com.yash.HrManager.Entity.Training;
 import com.yash.HrManager.Entity.User;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,6 +19,8 @@ public class ApiRequestModelTraining {
         this.user = user;
         this.training = training;
     }
+
+
 
     public ApiRequestModelTraining() {
     }
@@ -61,4 +64,6 @@ public class ApiRequestModelTraining {
     public void setTrainingId(int trainingId) {
         this.trainingId = trainingId;
     }
+
+
 }

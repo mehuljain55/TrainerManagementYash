@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.yash.HrManager.Entity.enums.ModfiyStatus;
 import com.yash.HrManager.Entity.enums.TrainerAttendance;
 import com.yash.HrManager.Entity.enums.TrainingType;
 import jakarta.persistence.*;
@@ -43,6 +44,9 @@ public class DailySchedule {
 
     @Enumerated(EnumType.STRING)
     private TrainerAttendance trainerAttendance;
+
+    @Enumerated(EnumType.STRING)
+    private ModfiyStatus modfiyStatus;
 
     public DailySchedule(int sno, WeeklySchedule weeklySchedule, String emailId, Date date, String description) {
         this.sno = sno;
@@ -133,6 +137,14 @@ public class DailySchedule {
 
     public void setType(TrainingType type) {
         this.type = type;
+    }
+
+    public ModfiyStatus getModfiyStatus() {
+        return modfiyStatus;
+    }
+
+    public void setModfiyStatus(ModfiyStatus modfiyStatus) {
+        this.modfiyStatus = modfiyStatus;
     }
 
     @Override

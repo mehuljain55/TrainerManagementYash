@@ -39,6 +39,8 @@ public class Training {
     @Enumerated(EnumType.STRING)
     private TrainingStatus status;
 
+    private String filePath;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "training_weekly_schedule",
@@ -127,5 +129,13 @@ public class Training {
 
     public void setTrainingName(String trainingName) {
         this.trainingName = trainingName;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 }

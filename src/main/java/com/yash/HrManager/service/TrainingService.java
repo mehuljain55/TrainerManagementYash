@@ -4,15 +4,13 @@ import com.yash.HrManager.Entity.DailySchedule;
 import com.yash.HrManager.Entity.Training;
 import com.yash.HrManager.Entity.User;
 import com.yash.HrManager.Entity.WeeklySchedule;
-import com.yash.HrManager.Entity.enums.StatusResponse;
-import com.yash.HrManager.Entity.enums.TrainerAttendance;
-import com.yash.HrManager.Entity.enums.TrainingStatus;
-import com.yash.HrManager.Entity.enums.TrainingType;
+import com.yash.HrManager.Entity.enums.*;
 import com.yash.HrManager.Entity.models.ApiResponseModel;
 import com.yash.HrManager.repository.DailyScheduleRepo;
 import com.yash.HrManager.repository.TraniningRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -29,13 +27,21 @@ public class TrainingService {
     @Autowired
     private DailyScheduleRepo dailyScheduleRepo;
 
-    public ApiResponseModel addNewTraining(User user,Training trainingRequest)
+    @Autowired
+    private FileUploadService fileUploadService;
+
+
+    public ApiResponseModel addNewTraining(User user, Training trainingRequest, MultipartFile file)
     {
         try {
           Training training= traniningRepo.save(trainingRequest);
           List<WeeklySchedule> weeklyScheduleList=weeklyScheduleService.generateWeeklySchedule(trainingRequest.getStartDate(),trainingRequest.getEndDate());
           List<DailySchedule> dailySchedules=generateTrainingDailySchedule(weeklyScheduleList,user,training);
-            System.out.println(dailySchedules);
+          String filepath=fileUploadService.setFilePath(file,training);
+          if(!filepath.equals("Failed"))
+          {
+              trainingRequest.setFilePath(filepath);
+          }
           trainingRequest.setStatus(TrainingStatus.PENDING);
           trainingRequest.setEmailId(user.getEmailId());
           trainingRequest.setTrainerName(user.getName());
@@ -127,7 +133,7 @@ public class TrainingService {
                 e.printStackTrace();
             }
         }
-        return new ApiResponseModel<>(StatusResponse.success,null,"Daily Schedule Update");
+        return new ApiResponseModel<>(StatusResponse.success,null,"Daily Schedule Updated");
 
     }
 
@@ -141,7 +147,6 @@ public class TrainingService {
 
             if (dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY) {
                 dates.add(calendar.getTime());
-                System.out.println("Adding: " + calendar.getTime()); // Debugging output
             }
             calendar.add(Calendar.DATE, 1);
         }
@@ -167,6 +172,7 @@ public class TrainingService {
                 dailySchedule.setTrainingId(training.getTrainingId());
                 dailySchedule.setDay(dayFormat.format(date)); // Set day name (e.g., Monday, Tuesday)
                 dailySchedule.setEmailId(user.getEmailId());
+                dailySchedule.setModfiyStatus(ModfiyStatus.disabled);
                 dailySchedule.setType(TrainingType.TRAINING);
                 dailySchedule.setTrainerAttendance(TrainerAttendance.PRESENT);
                 dailySchedules.add(dailySchedule);
