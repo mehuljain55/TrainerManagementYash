@@ -14,6 +14,7 @@ import com.yash.HrManager.repository.WeeklyScheduleRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -47,11 +48,13 @@ public class TrainerService {
     public ApiResponseModel addTrainerDailySchedule(List<DailySchedule> dailySchedules, User user)
     {
         List<DailySchedule> dailyScheduleList=new ArrayList<>();
+        SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE");
         try {
             for(DailySchedule schedule:dailySchedules)
             {
                 WeeklySchedule weeklySchedule=weeklyScheduleService.generateWeeklySchedule(schedule.getDate(),schedule.getDate()).get(0);
                 schedule.setWeeklySchedule(weeklySchedule);
+                schedule.setDay(dayFormat.format(schedule.getDate()));
                 schedule.setEmailId(user.getEmailId());
                 schedule.setType(TrainingType.ROUTINE);
                 dailyScheduleList.add(schedule);
@@ -64,4 +67,5 @@ public class TrainerService {
             return new ApiResponseModel<>(StatusResponse.failed,null,"Error in adding daily schedules");
         }
     }
+
 }
