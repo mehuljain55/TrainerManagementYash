@@ -88,6 +88,7 @@ public class UserAuthorizationService {
         }
     }
 
+
     private String hashPassword(String rawPassword) {
         return BCrypt.hashpw(rawPassword, BCrypt.gensalt());
     }
