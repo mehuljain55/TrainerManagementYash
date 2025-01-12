@@ -48,13 +48,11 @@ public class TrainerService {
     public ApiResponseModel addTrainerDailySchedule(List<DailySchedule> dailySchedules, User user)
     {
         List<DailySchedule> dailyScheduleList=new ArrayList<>();
-        SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE");
         try {
             for(DailySchedule schedule:dailySchedules)
             {
                 WeeklySchedule weeklySchedule=weeklyScheduleService.generateWeeklySchedule(schedule.getDate(),schedule.getDate()).get(0);
                 schedule.setWeeklySchedule(weeklySchedule);
-                schedule.setDay(dayFormat.format(schedule.getDate()));
                 schedule.setEmailId(user.getEmailId());
                 schedule.setType(TrainingType.ROUTINE);
                 dailyScheduleList.add(schedule);
