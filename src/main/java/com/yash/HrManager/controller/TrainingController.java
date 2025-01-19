@@ -25,7 +25,7 @@ public class TrainingController {
     private final UserRoles accessRole=UserRoles.trainer;
 
     @PostMapping(value = "/addNewTraining", consumes = "multipart/form-data")
-    public ApiResponseModel createNewTraining(     @RequestParam("file") MultipartFile file, // File from multipart
+    public ApiResponseModel createNewTraining(     @RequestParam("file") MultipartFile file,
                                                    @RequestBody ApiRequestModelTraining training){
       boolean validateAccess=userAuthorizationService.validateUserToken(training.getUser().getEmailId(),training.getToken());
         if(validateAccess)
