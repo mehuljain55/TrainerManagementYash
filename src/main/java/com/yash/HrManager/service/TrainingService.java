@@ -1,13 +1,11 @@
 package com.yash.HrManager.service;
 
-import com.yash.HrManager.Entity.DailySchedule;
-import com.yash.HrManager.Entity.Training;
-import com.yash.HrManager.Entity.User;
-import com.yash.HrManager.Entity.WeeklySchedule;
+import com.yash.HrManager.Entity.*;
 import com.yash.HrManager.Entity.enums.*;
 import com.yash.HrManager.Entity.models.ApiResponseModel;
 import com.yash.HrManager.repository.DailyScheduleRepo;
 import com.yash.HrManager.repository.TraniningRepo;
+import com.yash.HrManager.repository.UserRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,6 +27,9 @@ public class TrainingService {
 
     @Autowired
     private FileUploadService fileUploadService;
+
+    @Autowired
+    private UserRequestRepository userRequestRepository;
 
 
     public ApiResponseModel addNewTraining(User user, Training trainingRequest, MultipartFile file)
@@ -60,9 +61,8 @@ public class TrainingService {
     public ApiResponseModel<List<Training>> findTrainingsByEmailAndStatus(User user, TrainingStatus status)
     {
         try {
+
             List<Training> trainings=traniningRepo.findTrainingsByEmailAndStatus(user.getEmailId(),status);
-            System.out.println(trainings.size());
-            System.out.println(user.getEmailId()+" "+status);
             if(trainings!=null&& trainings.size()>0)
             {
 
@@ -78,6 +78,7 @@ public class TrainingService {
     }
     public ApiResponseModel<List<DailySchedule>> findDailyScheduleByWeekIdAndTrainingId(int trainingId) {
         Optional<Training> optionalTraining=traniningRepo.findById(trainingId);
+
         if(optionalTraining.isPresent()) {
             Training training=optionalTraining.get();
             List<WeeklySchedule> weeklyScheduleList = weeklyScheduleService.getWeekByDates(training.getStartDate(), training.getEndDate());
@@ -86,6 +87,11 @@ public class TrainingService {
                 List<DailySchedule> dailySchedules = dailyScheduleRepo.findDailyScheduleByWeekIdANDTrainingType(weeklySchedule.getWeekId(), trainingId,TrainingType.TRAINING);
                   for(DailySchedule schedule:dailySchedules)
                   {
+                   UserRequests userRequests=userRequestRepository.findUserEditRequest(trainingId,schedule.getSno(),new Date(),RequestStatus.approved);
+                   if(userRequests!=null && userRequests.getDailyScheduledId()==schedule.getSno())
+                   {
+                       schedule.setModfiyStatus(ModfiyStatus.enabled);
+                   }
                         schedule.setWeekScheduleId(weeklySchedule.getWeekId());
                         dailyScheduleList.add(schedule);
                   }

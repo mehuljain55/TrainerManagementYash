@@ -39,6 +39,7 @@ public class Training {
     @Enumerated(EnumType.STRING)
     private TrainingStatus status;
 
+
     private String filePath;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
