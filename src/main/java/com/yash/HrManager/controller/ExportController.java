@@ -39,4 +39,23 @@ public class ExportController {
      }
     }
 
+    @PostMapping("/dailyScheduleSingleWeek")
+    public ResponseEntity<byte[]> dailyScheduleSingleWeek(@RequestBody ApiExportModel exportModel) throws IOException {
+
+        boolean status=userAuthorizationService.validateUserToken(exportModel.getUser().getEmailId(),exportModel.getToken());
+        if(status) {
+            byte[] excelFile = exportService.exportTrainingDailyScheduleListSingleWeek(exportModel.getDailyScheduleList(),exportModel.getUser());
+            HttpHeaders headers = new HttpHeaders();
+            String filename="Training List "+exportModel.getUser().getName();
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+filename+".xlsx");
+            headers.add(HttpHeaders.CONTENT_TYPE, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(excelFile);
+        }else {
+            return ResponseEntity.status(401).body("Unauthorized access".getBytes());
+        }
+    }
+
 }

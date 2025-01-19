@@ -84,7 +84,7 @@ public class TrainingService {
             List<WeeklySchedule> weeklyScheduleList = weeklyScheduleService.getWeekByDates(training.getStartDate(), training.getEndDate());
             List<DailySchedule> dailyScheduleList = new ArrayList<>();
             for (WeeklySchedule weeklySchedule : weeklyScheduleList) {
-                List<DailySchedule> dailySchedules = dailyScheduleRepo.findDailyScheduleByWeekIdANDTrainingType(weeklySchedule.getWeekId(), trainingId,TrainingType.TRAINING);
+                List<DailySchedule> dailySchedules = dailyScheduleRepo.findDailyScheduleByWeekIdTrainingIdANDTrainingType(weeklySchedule.getWeekId(), trainingId,TrainingType.TRAINING);
                   for(DailySchedule schedule:dailySchedules)
                   {
                    UserRequests userRequests=userRequestRepository.findUserEditRequest(trainingId,schedule.getSno(),new Date(),RequestStatus.approved);

@@ -15,7 +15,7 @@ import java.util.List;
 public interface DailyScheduleRepo extends JpaRepository<DailySchedule,Integer> {
 
     @Query("SELECT d FROM DailySchedule d WHERE d.weeklySchedule.weekId = :weekId AND d.trainingId = :trainingId AND d.type = :type")
-    List<DailySchedule> findDailyScheduleByWeekIdANDTrainingType(@Param("weekId") int weekId, @Param("trainingId") int trainingId, @Param("type")TrainingType type);
+    List<DailySchedule> findDailyScheduleByWeekIdTrainingIdANDTrainingType(@Param("weekId") int weekId, @Param("trainingId") int trainingId, @Param("type")TrainingType type);
 
     @Query("SELECT d FROM DailySchedule d WHERE d.emailId = :emailId AND d.date BETWEEN :startDate AND :endDate")
     List<DailySchedule> findDailyScheduleUserDateRange(
