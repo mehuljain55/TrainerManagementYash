@@ -13,6 +13,8 @@ public class ApiExportModel {
     private List<Training> trainingList;
     private List<WeeklySchedule> weeklyScheduleList;
     private List<DailySchedule> dailyScheduleList;
+    private String userId;
+    private int weekId;
 
     public ApiExportModel(String token, User user, List<Training> trainingList, List<WeeklySchedule> weeklyScheduleList, List<DailySchedule> dailyScheduleList) {
         this.token = token;
@@ -60,5 +62,21 @@ public class ApiExportModel {
 
     public void setDailyScheduleList(List<DailySchedule> dailyScheduleList) {
         this.dailyScheduleList = dailyScheduleList;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public int getWeekId() {
+        return weekId;
+    }
+
+    public void setWeekId(int weekId) {
+        this.weekId = weekId;
     }
 }

@@ -35,9 +35,6 @@ public class TrainerController {
 
     private final UserRoles accessRole=UserRoles.trainer;
 
-
-
-
     @GetMapping("/generateWeek")
     private List<WeeklySchedule> weeklyScheduleList(@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
                                                     @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate)
@@ -80,6 +77,4 @@ public class TrainerController {
             return new ApiResponseModel(StatusResponse.unauthorized, null, "Unauthorized Access");
         }
     }
-
-
 }

@@ -25,16 +25,18 @@ public class TrainingController {
     private final UserRoles accessRole=UserRoles.trainer;
 
     @PostMapping(value = "/addNewTraining", consumes = "multipart/form-data")
-    public ApiResponseModel createNewTraining(     @RequestParam("file") MultipartFile file,
-                                                   @RequestBody ApiRequestModelTraining training){
-      boolean validateAccess=userAuthorizationService.validateUserToken(training.getUser().getEmailId(),training.getToken());
-        if(validateAccess)
-        {
-            return trainingService.addNewTraining(training.getUser(),training.getTraining(),file);
-        }else {
+    public ApiResponseModel createNewTraining(
+            @RequestPart("file") MultipartFile file,
+            @RequestPart("training") ApiRequestModelTraining training) {
+
+        boolean validateAccess = userAuthorizationService.validateUserToken(training.getUser().getEmailId(), training.getToken());
+        if (validateAccess) {
+            return trainingService.addNewTraining(training.getUser(), training.getTraining(), file);
+        } else {
             return new ApiResponseModel(StatusResponse.unauthorized, null, "Unauthorized Access");
         }
     }
+
 
     @PostMapping("/viewTrainingListByEmailAndStatus")
     public ApiResponseModel viewTrainingListByEmailAndStatus(@RequestBody ApiRequestModel training)

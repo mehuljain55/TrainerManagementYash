@@ -13,10 +13,10 @@ import java.util.List;
 
 public interface UserRequestRepository extends JpaRepository<UserRequests,Integer> {
 
-    @Query("SELECT u FROM UserRequests u WHERE u.trainingId = :trainingId AND u.dailyScheduledId=:dailyScheduledId AND u.validTill>=:currentDate AND t.status = :status")
+    @Query("SELECT u FROM UserRequests u WHERE u.trainingId = :trainingId AND u.dailyScheduledId=:dailyScheduledId AND u.validTill>=:currentDate AND u.status = :status")
     UserRequests findUserEditRequest(@Param("trainingId") int trainingId,
-                                                 @Param("dailyScheduledId") int dailyScheduledId,
-                                                 @Param("currentDate") Date currentDate,
-                                                 @Param("status") RequestStatus status);
+                                     @Param("dailyScheduledId") int dailyScheduledId,
+                                     @Param("currentDate") Date currentDate,
+                                     @Param("status") RequestStatus status);
 
 }
