@@ -75,6 +75,11 @@ public class TrainerService {
     public ApiResponseModel createEditRequest(UserRequests userRequests,User user)
     {
         try{
+            List<UserRequests> userRequestsList=userRequestRepo.findUserEditRequestByTrainingId(userRequests.getDailyScheduledId(),RequestStatus.pending);
+            if(userRequestsList.size()>0)
+            {
+                return new ApiResponseModel<>(StatusResponse.failed,null,"Request already in pending state");
+            }
             LocalDate tomorrow = LocalDate.now().plusDays(1);
             Date validTill = Date.from(tomorrow.atStartOfDay(ZoneId.systemDefault()).toInstant());
             userRequests.setEmailId(user.getEmailId());

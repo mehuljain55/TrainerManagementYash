@@ -87,13 +87,11 @@ public class TrainingService {
                 List<DailySchedule> dailySchedules = dailyScheduleRepo.findDailyScheduleByWeekIdTrainingIdANDTrainingType(weeklySchedule.getWeekId(), trainingId,TrainingType.TRAINING);
                   for(DailySchedule schedule:dailySchedules)
                   {
-                   UserRequests userRequests=userRequestRepository.findUserEditRequest(trainingId,schedule.getSno(),new Date(),RequestStatus.approved);
-                   if(userRequests!=null && userRequests.getDailyScheduledId()==schedule.getSno())
+                   List<UserRequests> userRequestsList=userRequestRepository.findUserEditRequest(trainingId,schedule.getSno(),new Date(),RequestStatus.approved);
+                   if(userRequestsList.size()>0)
                    {
-                       System.out.println("Edit request");
                        schedule.setModfiyStatus(ModfiyStatus.enabled);
                    }
-
                         schedule.setWeekScheduleId(weeklySchedule.getWeekId());
                         dailyScheduleList.add(schedule);
                   }
