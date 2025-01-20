@@ -2,7 +2,6 @@ package com.yash.HrManager.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.yash.HrManager.Entity.enums.ModfiyStatus;
 import com.yash.HrManager.Entity.enums.TrainerAttendance;
