@@ -13,6 +13,10 @@ public interface TraniningRepo extends JpaRepository<Training,Integer> {
     @Query("SELECT t FROM Training t WHERE t.emailId = :emailId AND t.status = :status")
     List<Training> findTrainingsByEmailAndStatus(@Param("emailId") String emailId, @Param("status") TrainingStatus status);
 
+    @Query("SELECT t FROM Training t WHERE t.status = :status")
+    List<Training> findTrainingsByStatus(@Param("status") TrainingStatus status);
+
+
     @Query("SELECT t FROM Training t WHERE t.emailId = :emailId AND t.trainingId = :trainingId")
     Training findTrainingsByEmailAndTrainingId(@Param("emailId") String emailId, @Param("trainingId") int trainingId);
 
