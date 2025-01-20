@@ -147,6 +147,8 @@ public class DailySchedule {
         this.modfiyStatus = modfiyStatus;
     }
 
+
+
     @Override
     public String toString() {
         return "DailySchedule{" +

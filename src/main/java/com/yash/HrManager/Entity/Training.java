@@ -16,18 +16,10 @@ public class Training {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int trainingId;
-
-
     private String trainingName;
-
     private String emailId;
-
-
-
     private String trainerName;
-
     private int noOfParticipant;
-
     private String description;
 
     @Temporal(TemporalType.DATE)
@@ -38,7 +30,6 @@ public class Training {
 
     @Enumerated(EnumType.STRING)
     private TrainingStatus status;
-
 
     private String filePath;
 

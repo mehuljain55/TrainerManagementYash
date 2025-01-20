@@ -93,15 +93,6 @@ public class ExportService {
         String sname = user.getName();
         int trainingId = dailyScheduleList.get(0).getTrainingId();
         int weekId = dailyScheduleList.get(0).getWeekScheduleId();
-
-        System.out.println(dailyScheduleList.size());
-
-        for(DailySchedule schedule:dailyScheduleList)
-        {
-            System.out.println(schedule);
-        }
-
-        System.out.println(email+" "+trainingId);
         Training training = traniningRepo.findTrainingsByEmailAndTrainingId(email, trainingId);
         String trainingName = training.getTrainingName();
         String startDate = findDateRange(dailyScheduleList).get("startDate");
@@ -127,17 +118,14 @@ public class ExportService {
         Row row3 = sheet.createRow(2);
         row3.createCell(0).setCellValue("Week Id: " + weekId);
 
-        // Add a blank row for spacing
-        sheet.createRow(3);
 
         // Create column headers (Sno, Date, Description, Attendance)
-        Row header = sheet.createRow(4);
+        Row header = sheet.createRow(3);
         header.createCell(0).setCellValue("Sno");
         header.createCell(1).setCellValue("Date");
         header.createCell(2).setCellValue("Description");
         header.createCell(3).setCellValue("Attendance");
 
-        // Apply bold style for header
         Font headerFont = workbook.createFont();
         headerFont.setBold(true);
         headerFont.setFontHeightInPoints((short) 12);
@@ -148,10 +136,9 @@ public class ExportService {
             header.getCell(i).setCellStyle(headerCellStyle);
         }
 
-        // Populate rows with data
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         int rowNum = 5;
-        int sno = 1; // To add serial number
+        int sno = 1;
 
         for (DailySchedule schedule : dailyScheduleList) {
             Row row = sheet.createRow(rowNum++);
@@ -167,7 +154,6 @@ public class ExportService {
         sheet.setColumnWidth(2, 10000);
         sheet.setColumnWidth(3, 8000);
 
-        // Write to byte array output stream
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
             workbook.write(byteArrayOutputStream);
             return byteArrayOutputStream.toByteArray();

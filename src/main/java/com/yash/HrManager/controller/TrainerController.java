@@ -3,6 +3,7 @@ package com.yash.HrManager.controller;
 import com.yash.HrManager.Entity.WeeklySchedule;
 import com.yash.HrManager.Entity.enums.StatusResponse;
 import com.yash.HrManager.Entity.enums.UserRoles;
+import com.yash.HrManager.Entity.models.ApiRequestModel;
 import com.yash.HrManager.Entity.models.ApiRequestModelDailySchedule;
 import com.yash.HrManager.Entity.models.ApiRequestModelTraining;
 import com.yash.HrManager.Entity.models.ApiResponseModel;
@@ -77,4 +78,18 @@ public class TrainerController {
             return new ApiResponseModel(StatusResponse.unauthorized, null, "Unauthorized Access");
         }
     }
+
+
+    @PostMapping("/editRequest")
+    private ApiResponseModel createDailyScheduleEditRequest(@RequestBody ApiRequestModel apiRequestModel)
+    {
+        boolean validateAccess=userAuthorizationService.validateUserAccess(apiRequestModel.getUser(),apiRequestModel.getToken(),accessRole);
+        if(validateAccess)
+        {
+            return trainerService.createEditRequest(apiRequestModel.getUserRequests(),apiRequestModel.getUser());
+        }else {
+            return new ApiResponseModel(StatusResponse.unauthorized, null, "Unauthorized Access");
+        }
+    }
+
 }

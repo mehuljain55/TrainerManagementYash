@@ -90,8 +90,10 @@ public class TrainingService {
                    UserRequests userRequests=userRequestRepository.findUserEditRequest(trainingId,schedule.getSno(),new Date(),RequestStatus.approved);
                    if(userRequests!=null && userRequests.getDailyScheduledId()==schedule.getSno())
                    {
+                       System.out.println("Edit request");
                        schedule.setModfiyStatus(ModfiyStatus.enabled);
                    }
+
                         schedule.setWeekScheduleId(weeklySchedule.getWeekId());
                         dailyScheduleList.add(schedule);
                   }

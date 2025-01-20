@@ -1,6 +1,5 @@
 package com.yash.HrManager.Entity;
 
-
 import com.yash.HrManager.Entity.enums.RequestStatus;
 import jakarta.persistence.*;
 
@@ -13,12 +12,17 @@ public class UserRequests {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int requestId;
+    private String emailId;
     private int trainingId;
     private int dailyScheduledId;
+    @Temporal(TemporalType.DATE)
     private Date validTill;
     private String reason;
     @Enumerated(EnumType.STRING)
     private RequestStatus status;
+
+    public UserRequests() {
+    }
 
     public UserRequests(int requestId, int trainingId, String reason) {
         this.requestId = requestId;
@@ -72,5 +76,13 @@ public class UserRequests {
 
     public void setStatus(RequestStatus status) {
         this.status = status;
+    }
+
+    public String getEmailId() {
+        return emailId;
+    }
+
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
     }
 }
