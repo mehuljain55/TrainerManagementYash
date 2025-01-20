@@ -38,7 +38,6 @@ public class UserAuthorizationService {
         }
     }
 
-
     public ApiResponseModel<UserLoginModel> validateUserLogin(String emailId, String password)
     {
         Optional<User> opt= userRepo.findById(emailId);
@@ -87,7 +86,6 @@ public class UserAuthorizationService {
             return  false;
         }
     }
-
 
     private String hashPassword(String rawPassword) {
         return BCrypt.hashpw(rawPassword, BCrypt.gensalt());
